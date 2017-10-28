@@ -32,6 +32,9 @@ import { AngularFireModule } from 'angularfire2';
 export const firebaseConfig = environment.firebaseConfig;
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { FormsModule } from '@angular/forms';
+import { LeningFormComponent } from './lening/lening-form/lening-form.component';
+import { LeningListComponent } from './lening/lening-list/lening-list.component';
+import {LeningModule} from "./lening/shared/lening.module";
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { FormsModule } from '@angular/forms';
     CoreModule,
     SharedModule,
     ItemModule,
+    LeningModule,
     UiModule,
     NotesModule,
     AngularFireModule.initializeApp(firebaseConfig)

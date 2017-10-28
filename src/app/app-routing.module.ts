@@ -8,11 +8,18 @@ import { ReadmePageComponent } from './ui/readme-page/readme-page.component';
 import { NotesListComponent } from './notes/notes-list/notes-list.component';
 
 import { CoreModule } from './core/core.module'
+import {LeningFormComponent} from "./lening/lening-form/lening-form.component";
+import {LeningListComponent} from "./lening/lening-list/lening-list.component";
+import {BeheerderGuard} from "./core/beheerder.guard";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
   { path: 'login', component: UserLoginComponent, },
   { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard]},
+  { path: 'lening', children: [
+    {path: 'new', component: LeningFormComponent},
+    {path: 'list', component: LeningListComponent, canActivate: [BeheerderGuard]},
+  ]},
   { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
   // uploads are lazy loaded
   { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] }
@@ -21,6 +28,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard]
+  providers: [AuthGuard, BeheerderGuard]
 })
 export class AppRoutingModule { }

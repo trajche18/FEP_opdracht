@@ -1,0 +1,12 @@
+<p>
+  lening-form works!
+</p>
+
+<span *ngIf="leningService.canCreate">You can only see this if you're user</span><br />
+
+<span *ngIf="leningService.canRead">You can only see this if you're admin</span>
+
+
+<a class="nav-item" routerLink="/lening/list">
+  List view
+</a>
