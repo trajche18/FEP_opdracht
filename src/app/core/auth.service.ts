@@ -49,7 +49,6 @@ export class AuthService {
           }
         })
         .subscribe(user => {
-          console.log(this.user);
           this.user.next(user);
         })
   }
@@ -164,6 +163,7 @@ export class AuthService {
     const userData = new User(authData);
     const ref = this.db.object('users/' + authData.uid);
     ref.valueChanges().subscribe(user=> {
+      user = user == null ? {} : user;
       if (!('roles' in user)) {
         ref.update(userData).catch(error => console.log(error));
       }
