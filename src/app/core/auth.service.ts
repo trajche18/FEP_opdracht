@@ -12,20 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
 import {User} from "../users/user";
 
-
-
-// export function createListValueChanges<T>(query: DatabaseQuery) {
-//   return function valueChanges<T>(events?: ChildEvent[]): Observable<T[]> {
-//     events = validateEventsArray(events);
-//     return listChanges<T>(query, events!)
-//       .map(changes => changes.map(change => {
-//         console.log(changes)
-//         const data = change.payload.snapshot!.val()
-//         return  { $key: change.key, ...data }
-//       }))
-//   }
-// }
-
+import * as _ from "lodash";
 
 
 @Injectable()
@@ -73,10 +60,6 @@ export class AuthService {
 //     return this.authenticated ? this.user.uid : '';
 //   }
 
-  // // Anonymous User
-  // get currentUserAnonymous(): boolean {
-  //   return this.authenticated ? this.user.isAnonymous : false
-  // }
 
   //// Social Auth ////
 
@@ -121,12 +104,12 @@ export class AuthService {
 
   //// Email/Password Auth ////
 
-  emailSignUp(email: string, password: string) {
+  emailSignUp(email: string, password: string, information: Object) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then((user) => {
+        user = _.merge(user,information);
         this.updateUserData(user)
       })
-      .catch(error => console.log(error));
   }
 
   emailLogin(email: string, password: string) {

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth.service';
+import { Router } from '@angular/router';
+
+import * as _ from 'lodash';
+import {User} from "../../users/user";
 
 @Component({
   selector: 'user-profile',
@@ -8,14 +12,28 @@ import { AuthService } from '../../core/auth.service';
 })
 export class UserProfileComponent implements OnInit {
 
+  userInfo = {};
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, public router: Router) {
+    auth.user.map(user => {
+      if('voornaam' in user) {
+        this.router.navigate([''])
+      }
+      return this.userInfo = _.assign(this.userInfo, user);
+    }).subscribe()
+
+    auth.currentUserObservable.subscribe((user) => {
+      if(user != null)
+        this.userInfo = _.assign(this.userInfo,{'uid': user.uid});
+    });
+  }
 
   ngOnInit() {
   }
 
   logout() {
     this.auth.signOut();
+    this.router.navigate(['/user/login']);
   }
 
 }

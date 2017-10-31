@@ -16,7 +16,10 @@
   <!-- This "nav-menu" is hidden on mobile -->
   <!-- Add the modifier "is-active" to display it on mobile -->
   <div class="nav-right nav-menu" [ngClass]="{'is-active': show}">
-    <a class="nav-item" routerLink="/login">
+    <a class="nav-item" (click)="logout()" *ngIf="auth.currentUser;">
+      Logout
+    </a>
+    <a class="nav-item" routerLink="/user/login" *ngIf="!auth.currentUser;">
       Login
     </a>
     <a class="nav-item" routerLink="/notes">

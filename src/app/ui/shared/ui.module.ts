@@ -27,17 +27,13 @@ import { ReadmePageComponent } from '../readme-page/readme-page.component';
     BrowserAnimationsModule
   ],
   declarations: [
-    UserLoginComponent,
-    UserProfileComponent,
     TopNavComponent,
     FooterNavComponent,
-    UserFormComponent,
     ReadmePageComponent
   ],
   exports: [
     TopNavComponent,
     FooterNavComponent,
-    UserProfileComponent,
   ]
 })
 export class UiModule { }

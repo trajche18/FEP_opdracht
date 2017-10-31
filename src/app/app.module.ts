@@ -35,6 +35,12 @@ import { FormsModule } from '@angular/forms';
 import { LeningFormComponent } from './lening/lening-form/lening-form.component';
 import { LeningListComponent } from './lening/lening-list/lening-list.component';
 import {LeningModule} from "./lening/shared/lening.module";
+import { RegisterComponent } from './users/register/register.component';
+import { LoginComponent } from './users/login/login.component';
+import {UsersModule} from "./users/users.module";
+import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
+import { DashboardComponent } from './users/dashboard/dashboard.component';
+import { ProfileComponent } from './users/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +55,7 @@ import {LeningModule} from "./lening/shared/lening.module";
     SharedModule,
     ItemModule,
     LeningModule,
+    UsersModule,
     UiModule,
     NotesModule,
     AngularFireModule.initializeApp(firebaseConfig)

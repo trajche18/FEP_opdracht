@@ -11,10 +11,18 @@ import { CoreModule } from './core/core.module'
 import {LeningFormComponent} from "./lening/lening-form/lening-form.component";
 import {LeningListComponent} from "./lening/lening-list/lening-list.component";
 import {BeheerderGuard} from "./core/beheerder.guard";
+import {LoginComponent} from "./users/login/login.component";
+import {RegisterComponent} from "./users/register/register.component";
+import {DashboardComponent} from "./users/dashboard/dashboard.component";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
-  { path: 'login', component: UserLoginComponent, },
+  { path: 'user', children: [
+    {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+    {path: 'profile', component: DashboardComponent, canActivate: [AuthGuard]},
+  ]},
   { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard]},
   { path: 'lening', children: [
     {path: 'new', component: LeningFormComponent},
