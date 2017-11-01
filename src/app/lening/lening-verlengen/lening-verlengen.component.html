@@ -2,7 +2,7 @@
   <h1>Lening verlengen van hardware</h1>
   <h2><span>Kies een hardware die u wilt verlengen</span></h2>
   <select (change)="selectChangedHandler ($event)">
-    <option value="none">--kies hardware--</option>
+    <option value="">--kies hardware--</option>
     <option value="firebase1">FireBase1</option>
     <option value="firebase2">FireBase2</option>
     <option value="firebase3">FireBase3</option>
@@ -21,10 +21,23 @@
 
 <hr>
 <!--<div id="hiddenDiv" style="display:none">-->
-<div>
+<div *ngIf="selectedHardware != ''">
 <p><span><b>Hardeware naam:</b></span>
   {{selectedHardware}}
 </p>
+  <p><span><b>Voornaam:</b></span>
+
+  </p>
+
+  <p><span><b>Achternaam:</b></span>
+
+  </p>
 </div>
+
+  <button
+    disabled>
+Verlengen
+  </button>
+
 
 
