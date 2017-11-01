@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AuthService} from "../../core/auth.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'top-nav',
@@ -10,7 +11,7 @@ export class TopNavComponent {
 
   show = false;
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, public router: Router) { }
 
   toggleCollapse() {
     this.show = !this.show
@@ -18,6 +19,7 @@ export class TopNavComponent {
 
   logout() {
     this.auth.signOut();
+    this.router.navigate(['/user/login']);
   }
 
 }

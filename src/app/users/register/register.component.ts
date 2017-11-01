@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth.service';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
@@ -45,7 +47,7 @@ export class RegisterComponent implements OnInit {
     }
   };
 
-  constructor(private fb: FormBuilder, private auth: AuthService) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, public router: Router) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -66,6 +68,10 @@ export class RegisterComponent implements OnInit {
         }).then((success) => {
           if(this.errors[0] === '')
             this.errors = [];
+      setTimeout(() => {
+        this.router.navigate(['/user/dashboard']);
+      }, 2000);
+
     })
   }
 

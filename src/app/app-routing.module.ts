@@ -14,14 +14,16 @@ import {BeheerderGuard} from "./core/beheerder.guard";
 import {LoginComponent} from "./users/login/login.component";
 import {RegisterComponent} from "./users/register/register.component";
 import {DashboardComponent} from "./users/dashboard/dashboard.component";
+import {ProfileComponent} from "./users/profile/profile.component";
+import {ProfileGuard} from "./core/profile.guard";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
   { path: 'user', children: [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
-    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-    {path: 'profile', component: DashboardComponent, canActivate: [AuthGuard]},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, ProfileGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   ]},
   { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard]},
   { path: 'lening', children: [
@@ -36,6 +38,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard, BeheerderGuard]
+  providers: [AuthGuard, BeheerderGuard, ProfileGuard]
 })
 export class AppRoutingModule { }

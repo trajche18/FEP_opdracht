@@ -39,9 +39,9 @@ export class UserFormComponent implements OnInit {
     this.newUser = !this.newUser;
   }
 
-  signup(): void {
-    this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password'])
-  }
+  // signup(): void {
+  //   this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password'])
+  // }
 
   login(): void {
     this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password'])

@@ -16,8 +16,8 @@ export class UserProfileComponent implements OnInit {
 
   constructor(public auth: AuthService, public router: Router) {
     auth.user.map(user => {
-      if('voornaam' in user) {
-        this.router.navigate([''])
+      if(user != null && user.studentnummer === "") {
+        this.router.navigate(['/user/profile'])
       }
       return this.userInfo = _.assign(this.userInfo, user);
     }).subscribe()

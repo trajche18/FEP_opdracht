@@ -86,7 +86,9 @@ export class AuthService {
   private socialSignIn(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user);
+        let userInformation = {voornaam: '', achternaam: '', studentnummer: ''};
+        _.merge(userInformation, credential.user);
+        this.updateUserData(userInformation);
       })
       .catch(error => console.log(error));
   }
@@ -129,6 +131,22 @@ export class AuthService {
       .catch((error) => console.log(error))
   }
 
+  // Update profile
+  updateProfile(profile) : Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      // do some async stuff
+      const user = this.currentUser;
+      if(user != null) {
+        const ref = this.db.object('users/' + this.afAuth.auth.currentUser.uid);
+        ref.update(profile).catch(error => console.log(error));
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    })
+
+
+  }
 
   //// Sign Out ////
 
@@ -151,19 +169,6 @@ export class AuthService {
         ref.update(userData).catch(error => console.log(error));
       }
     })
-
-    //   const path = `users/${this.currentUserId}`; // Endpoint on firebase
-    //   const userRef: AngularFireObject<any> = this.db.object(path);
-    //
-    //   const data = {
-    //     email: this.authState.email,
-    //     name: this.authState.displayName
-    //   }
-    //
-    //   userRef.update(data)
-    //     .catch(error => console.log(error));
-    //
-    // }
   }
 
 

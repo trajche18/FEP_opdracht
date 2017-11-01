@@ -12,6 +12,7 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angula
 import {ResetPasswordComponent} from "./reset-password/reset-password.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {UserProfileComponent} from "../ui/user-profile/user-profile.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import {UserProfileComponent} from "../ui/user-profile/user-profile.component";
       ResetPasswordComponent,
       DashboardComponent,
       UserProfileComponent,
+      ProfileComponent,
   ],
   exports: [
       UserProfileComponent

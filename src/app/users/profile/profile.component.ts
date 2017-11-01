@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth.service';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'profile',
@@ -16,23 +17,11 @@ export class ProfileComponent implements OnInit {
   errors = [];
 
   formErrors = {
-    'email': '',
-    'password': '',
     'voornaam': '',
     'achternaam': '',
     'studentnummer': '',
   };
   validationMessages = {
-    'email': {
-      'required': 'Email is required.',
-      'email': 'Email must be a valid email'
-    },
-    'password': {
-      'required': 'Password is required.',
-      'pattern': 'Password must be include at one letter and one number.',
-      'minlength': 'Password must be at least 4 characters long.',
-      'maxlength': 'Password cannot be more than 40 characters long.',
-    },
     'voornaam': {
       'required': 'Voornaam is verplicht',
     },
@@ -45,7 +34,7 @@ export class ProfileComponent implements OnInit {
     }
   };
 
-  constructor(private fb: FormBuilder, private auth: AuthService) { }
+  constructor(private fb: FormBuilder, private auth: AuthService, public router: Router) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -55,18 +44,13 @@ export class ProfileComponent implements OnInit {
     this.newUser = !this.newUser;
   }
 
-  signup(): void {
+  updateProfile(): void {
     this.submitted = true;
-    this.errors = [''];
+    this.errors = [];
     this.userInformation = {voornaam: this.userForm.value['voornaam'], achternaam: this.userForm.value['achternaam'], studentnummer: this.userForm.value['studentnummer']};
-    this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password'], this.userInformation)
-        .catch(error => {
-          this.errors = [];
-          this.errors.push(error.message);
-        }).then((success) => {
-      if(this.errors[0] === '')
-        this.errors = [];
-    })
+    this.auth.updateProfile(this.userInformation).then((result)=> {
+      this.router.navigate(['/user/dashboard']);
+    });
   }
 
   login(): void {
@@ -75,17 +59,6 @@ export class ProfileComponent implements OnInit {
 
   buildForm(): void {
     this.userForm = this.fb.group({
-      'email': ['', [
-        Validators.required,
-        Validators.email
-      ]
-      ],
-      'password': ['', [
-        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-        Validators.minLength(6),
-        Validators.maxLength(25)
-      ]
-      ],
       'voornaam': ['', [
         Validators.required,
       ]

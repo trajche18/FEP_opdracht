@@ -25,6 +25,9 @@
     <a class="nav-item" routerLink="/notes">
       Firestore
     </a>
+    <a class="nav-item" routerLink="/user/dashboard" *ngIf="auth.currentUser;">
+      Dashboard
+    </a>
     <a class="nav-item" routerLink="/items">
       Realtime DB
     </a>
