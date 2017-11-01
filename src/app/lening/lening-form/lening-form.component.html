@@ -1,12 +1,27 @@
-<p>
-  lening-form works!
-</p>
+<h3>Hardware Lening Form</h3>
+<p>  Please select the hardware you want to lend and select the block you want to lend the hardware in!</p>
+
+<p> <label class="label">Hardware: </label>
+<select name="hardwarelist" >
+  <option value="raspberryPi">raspberry Pi</option>
+  <option value="TPM">TPM Chip</option>
+  <option value="NIC">NIC</option>
+  <option value="NXT">NXT Sensor</option>
+</select> </p>
+
+<p> <label class="label">Blok: </label>
+<select name="bloklist" >
+  <option value="blokA">block A</option>
+  <option value="blokB">block B</option>
+  <option value="blokC">block C</option>
+  <option value="blokD">block D</option>
+</select> </p>
 
 <span *ngIf="leningService.canCreate">You can only see this if you're user</span><br />
 
 <span *ngIf="leningService.canRead">You can only see this if you're admin</span>
 
 
-<a class="nav-item" routerLink="/lening/list">
+<a class="nav-lening" routerLink="/lening/list">
   List view
 </a>
