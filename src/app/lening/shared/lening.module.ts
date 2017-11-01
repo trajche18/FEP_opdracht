@@ -8,6 +8,7 @@ import {LeningFormComponent} from "../lening-form/lening-form.component";
 import {LeningService} from "./lening.service";
 import {LeningListComponent} from "../lening-list/lening-list.component";
 import {RouterModule} from "@angular/router";
+import {LeningDetailComponent} from "../lening-detail/lening-detail.component";
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {RouterModule} from "@angular/router";
     declarations: [
         LeningFormComponent,
         LeningListComponent,
+        LeningDetailComponent,
     ],
     providers: [
         LeningService

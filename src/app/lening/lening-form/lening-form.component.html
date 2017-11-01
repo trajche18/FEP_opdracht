@@ -1,27 +1,47 @@
 <h3>Hardware Lening Form</h3>
 <p>  Please select the hardware you want to lend and select the block you want to lend the hardware in!</p>
 
-<p> <label class="label">Hardware: </label>
-<select name="hardwarelist" >
-  <option value="raspberryPi">raspberry Pi</option>
-  <option value="TPM">TPM Chip</option>
-  <option value="NIC">NIC</option>
-  <option value="NXT">NXT Sensor</option>
-</select> </p>
+<div class="content columns">
+  <div class="column is-5 is-offset-4">
+    <form [formGroup]="userForm"  (ngSubmit)="createLening()">
 
-<p> <label class="label">Blok: </label>
-<select name="bloklist" >
-  <option value="blokA">block A</option>
-  <option value="blokB">block B</option>
-  <option value="blokC">block C</option>
-  <option value="blokD">block D</option>
-</select> </p>
+      <h3>Registratie</h3>
 
-<span *ngIf="leningService.canCreate">You can only see this if you're user</span><br />
+      <div *ngIf="userForm.valid && submitted && errors.length == 0" class="notification is-success">Uw aanvraag is voldaan. U krijgt binnen enkele minuten een mailtje op de, door u opgegeven, email</div>
 
-<span *ngIf="leningService.canRead">You can only see this if you're admin</span>
+      <div *ngIf="userForm.valid && submitted && errors.length > 0" class="notification is-danger">{{errors[0]}}</div>
+
+      <label class="label">Hardware: </label>
+      <select name="hardware" id="hardware"
+              formControlName="hardware" required>
+        <option value="raspberryPi">raspberry Pi</option>
+        <option value="TPM">TPM Chip</option>
+        <option value="NIC">NIC</option>
+        <option value="NXT">NXT Sensor</option>
+      </select>
+
+      <div *ngIf="formErrors.hardware" class="notification is-danger">
+        {{ formErrors.hardware }}
+      </div>
+
+      <label class="label">Blok: </label>
+      <select name="blok" id="blok"
+              formControlName="blok" required>
+        <option value="blok A">block A</option>
+        <option value="blok B">block B</option>
+        <option value="blok C">block C</option>
+        <option value="blok D">block D</option>
+      </select>
+
+      <div *ngIf="formErrors.blok" class="notification is-danger">
+        {{ formErrors.blok }}
+      </div>
 
 
-<a class="nav-lening" routerLink="/lening/list">
-  List view
-</a>
+
+      <button type="submit" class="button" [disabled]="!userForm.valid">Registreren</button>
+
+
+    </form>
+  </div>
+</div>

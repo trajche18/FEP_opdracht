@@ -3,7 +3,6 @@ import { ItemService } from '../shared/item.service';
 import { Item } from '../shared/item';
 import { Observable } from 'rxjs/Observable';
 
-
 @Component({
   selector: 'items-list',
   templateUrl: './items-list.component.html',
@@ -24,7 +23,6 @@ export class ItemsListComponent implements OnInit {
     this.items.subscribe(x => {
       this.showSpinner = false
     })
-
   }
 
   deleteItems() {

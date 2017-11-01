@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AuthService } from '../../core/auth.service';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { AuthService } from '../../core/auth.service'
+import { Lening } from './lening';;
+import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash'
 
 @Injectable()
 export class LeningService {
-    userRoles: Array<string>;
+  private basePath = '/lening';
+
+  leningenRef: AngularFireList<Lening>;
+  leningRef:  AngularFireObject<Lening>;
+
+  leningen: Observable<Lening[]>; //  list of objects
+  lening:  Observable<Lening>;   //   single object
+
+  userRoles: Array<string>;
 
     constructor(private auth: AuthService,
                 private db: AngularFireDatabase) {
@@ -16,6 +26,14 @@ export class LeningService {
         })
             .subscribe()
     }
+
+  getLeningenList(query?) {
+    // const itemsRef = afDb.list('/items')
+    // return this.itemsRef.valueChanges()
+    return this.leningenRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+    })
+  }
 
     /// Get Data
     getLeningen() {
@@ -48,22 +66,14 @@ export class LeningService {
     private matchingRole(allowedRoles): boolean {
         return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
     }
-    //// User Actions
-    createLening(newData) {
-        if ( this.canCreate ) {
-            return this.db.object('leningen/' + lening.$key).update(newData)
-        }
-        else console.log('action prevented!')
-    }
-
-  // Create a bramd new item
-  createItem(lening: Lening): void {
+    // Create a bramd new item
+  createLening(lening: Lening): void {
     if ( this.canCreate ) {
-      this.itemsRef.push(item)
+      this.leningenRef.push(lening)
     }
     else console.log('action prevented!')
   }
-    deletePost(key) {
+    deleteLening(key) {
         if ( this.canDelete ) {
             return this.db.list('leningen/' + key).remove()
         }
