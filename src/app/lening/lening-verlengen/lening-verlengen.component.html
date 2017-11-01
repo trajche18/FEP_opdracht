@@ -1,0 +1,30 @@
+<article>
+  <h1>Lening verlengen van hardware</h1>
+  <h2><span>Kies een hardware die u wilt verlengen</span></h2>
+  <select (change)="selectChangedHandler ($event)">
+    <option value="none">--kies hardware--</option>
+    <option value="firebase1">FireBase1</option>
+    <option value="firebase2">FireBase2</option>
+    <option value="firebase3">FireBase3</option>
+  </select>
+</article>
+
+<ul>
+  <li *ngFor="let h of hardware | async">
+    {{h.$value}}
+  </li>
+</ul>
+
+<!--display if value = !none-->
+
+<!--ng-template werkt niet?-->
+
+<hr>
+<!--<div id="hiddenDiv" style="display:none">-->
+<div>
+<p><span><b>Hardeware naam:</b></span>
+  {{selectedHardware}}
+</p>
+</div>
+
+

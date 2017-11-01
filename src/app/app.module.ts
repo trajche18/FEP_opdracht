@@ -23,9 +23,6 @@ import { NotesModule } from './notes/notes.module'
 ///// End FireStarter
 
 
-//asd asd
-
-
 import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 
@@ -41,6 +38,7 @@ import {UsersModule} from "./users/users.module";
 import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 import { DashboardComponent } from './users/dashboard/dashboard.component';
 import { ProfileComponent } from './users/profile/profile.component';
+import {LeningVerlengenComponent} from "./lening/lening-verlengen/lening-verlengen.component";
 
 @NgModule({
   declarations: [

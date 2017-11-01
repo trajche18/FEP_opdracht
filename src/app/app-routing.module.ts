@@ -16,6 +16,7 @@ import {RegisterComponent} from "./users/register/register.component";
 import {DashboardComponent} from "./users/dashboard/dashboard.component";
 import {ProfileComponent} from "./users/profile/profile.component";
 import {ProfileGuard} from "./core/profile.guard";
+import {LeningVerlengenComponent} from "./lening/lening-verlengen/lening-verlengen.component";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
   ]},
   { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
   // uploads are lazy loaded
-  { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] }
+  { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] },
+  { path: 'lening-verlengen', component: LeningVerlengenComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
