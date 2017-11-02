@@ -13,10 +13,16 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 export class LeningVerlengenComponent implements OnInit {
 
   selectedHardware = '';
+  verlengenToestaan = false;
+
   // dbHardware: FirebaseListObservable<any[]>;
 
   selectChangedHandler(event: any) {
     this.selectedHardware = event.target.value;
+  }
+
+  constructor(){
+
   }
 
   // constructor(db: AngularFireDatabase) {
