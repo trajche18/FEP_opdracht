@@ -14,7 +14,6 @@ export class HardwareService {
   hardware:  Observable<Hardware>;   //   single object
   constructor(private auth: AuthService,
               private db: AngularFireDatabase) {
-    this.itemsRef = db.list('/hardware')
 
     auth.user.map(user => {
       console.log(_.keys(_.get(user, 'roles')));
@@ -26,12 +25,22 @@ export class HardwareService {
 
   /// Get Data
   getHardware(key: string): Observable<Hardware> {
-    const itemPath = `${this.hardware}/${key}`;
+    const itemPath = 'hardware/' + key;
     this.hardware = this.db.object(itemPath).valueChanges();
     return this.hardware;
   }
   getHardwares() {
     return this.db.list('hardware')
+  }
+
+  getHardwareList(query?) {
+    // const itemsRef = afDb.list('/items')
+    // return this.itemsRef.valueChanges()
+    // return this.getHardwares().snapshotChanges().map(arr => {
+    //   return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+    // })
+    return this.itemsRef = this.db.list('/hardware')
+
   }
 /// Authorization Logic /////
 
