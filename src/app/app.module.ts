@@ -39,6 +39,7 @@ import { ResetPasswordComponent } from './users/reset-password/reset-password.co
 import { DashboardComponent } from './users/dashboard/dashboard.component';
 import { ProfileComponent } from './users/profile/profile.component';
 import {LeningVerlengenComponent} from "./lening/lening-verlengen/lening-verlengen.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {LeningVerlengenComponent} from "./lening/lening-verlengen/lening-verleng
     UsersModule,
     UiModule,
     NotesModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    NgbModule.forRoot()
   ],
   bootstrap: [
     AppComponent

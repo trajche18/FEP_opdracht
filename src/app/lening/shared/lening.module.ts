@@ -9,6 +9,7 @@ import {LeningService} from "./lening.service";
 import {LeningListComponent} from "../lening-list/lening-list.component";
 import {RouterModule} from "@angular/router";
 import {LeningVerlengenComponent} from "../lening-verlengen/lening-verlengen.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {LeningVerlengenComponent} from "../lening-verlengen/lening-verlengen.com
         FormsModule,
         AngularFireDatabaseModule,
         RouterModule,
+        NgbModule
     ],
     declarations: [
         LeningFormComponent,
