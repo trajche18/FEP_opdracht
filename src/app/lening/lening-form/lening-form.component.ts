@@ -5,6 +5,7 @@ import {LeningService} from "../shared/lening.service";
 import {AuthService} from "../../core/auth.service";
 import {Router} from "@angular/router";
 import {HardwareService} from "../../hardware/shared/hardware.service";
+import {Hardware} from "../../hardware/shared/hardware";
 
 @Component({
   selector: 'lening-form',
@@ -15,10 +16,10 @@ export class LeningFormComponent implements OnInit {
   hardwares: any;
  // lening: Lening = new Lening();
   leningForm: FormGroup;
-  leningInformation = {hardwareid:  '',huidige_blok: '',nieuw_blok: '', referentienummer: '', gebruikersId: '', status: ''};
+  leningInformation = {hardware:  '',huidige_blok: '',nieuw_blok: '', referentienummer: '', gebruikersId: '', status: ''};
   submitted = false;
-  newUser = true; // to toggle login or signup form
   errors = [];
+  userId: string;
 
   formErrors = {
     'hardware': '',
@@ -50,9 +51,27 @@ export class LeningFormComponent implements OnInit {
     // }
   };
 
+  getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  generateReferentieNummer() {
+    return this.getRandomInt(1, 10000);
+  }
+
   constructor(private leningService : LeningService, private hardwareService : HardwareService, private fb: FormBuilder, private auth: AuthService, public router: Router) {
     //this.hardwares = this.hardwareService.getHardwares();
-    this.hardwareService.getHardwareList().subscribe((hardware) => {this.hardwares = hardware});
+    auth.currentUserObservable.subscribe((user) => {
+      this.userId = user.uid;
+    })
+    this.hardwareService.getHardwareList().snapshotChanges().subscribe(hardware => {
+      this.hardwares = [];
+      hardware.forEach(elemenmt => {
+        var x = elemenmt.payload.toJSON();
+        x["$key"] = elemenmt.key;
+        this.hardwares.push(x as Hardware);
+      });
+    })
   }
 
   ngOnInit(): void {
@@ -61,12 +80,17 @@ export class LeningFormComponent implements OnInit {
     //this.hardwareService.getHardwares().subscribe(item => )
   }
   createLening() {
-   // this.leningService.createLening(this.lening)
-   // this.lening = new Lening() // reset de lening
-  }
+    this.leningInformation.hardware = this.leningForm.value['hardware'];
+    this.leningInformation.huidige_blok = this.leningForm.value['blok'];
+    this.leningInformation.nieuw_blok = this.leningService.nextBlok(this.leningForm.value['blok']);
+    this.leningInformation.referentienummer = this.generateReferentieNummer();
+    this.leningInformation.gebruikersId = this.userId;
+    this.leningInformation.status = "In behandeling";
 
-  toggleForm() {
-    this.newUser = !this.newUser;
+
+    console.log(this.leningInformation);
+    this.leningService.createLening(this.leningInformation as Lening);
+   // this.lening = new Lening() // reset de lening
   }
 
   signup(): void {

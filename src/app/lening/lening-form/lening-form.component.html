@@ -15,7 +15,7 @@
       <select name="hardware" id="hardware"
               formControlName="hardware" required>
         <option value="">--kies hardware--</option>
-        <option *ngFor="let hw of hardwares" value="hw.$key">{{hw.naam}}</option>
+        <option *ngFor="let hw of hardwares" [ngValue]="hw.$key">{{hw.naam}}</option>
       </select>
 
       <div *ngIf="formErrors.hardware" class="notification is-danger">
@@ -26,11 +26,11 @@
       <select name="blok" id="blok"
               formControlName="blok" required>
         <option value="">--kies blok--</option>
-        <option value="blok A">Blok A</option>
-        <option value="blok B">Blok B</option>
-        <option value="blok C">Blok C</option>
-        <option value="blok D">Blok D</option>
-        <option value="blok E">Blok E</option>
+        <option value="Blok A">Blok A</option>
+        <option value="Blok B">Blok B</option>
+        <option value="Blok C">Blok C</option>
+        <option value="Blok D">Blok D</option>
+        <option value="Blok E">Blok E</option>
       </select>
 
       <div *ngIf="formErrors.blok" class="notification is-danger">

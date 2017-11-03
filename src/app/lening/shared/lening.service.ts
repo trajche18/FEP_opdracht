@@ -36,9 +36,9 @@ export class LeningService {
   userRoles: Array<string>;
     constructor(private auth: AuthService,
                 private db: AngularFireDatabase) {
-      console.log(this.nextBlok('Blok C'));
+      this.leningenRef = this.db.list('leningen');
         auth.user.map(user => {
-            console.log(_.keys(_.get(user, 'roles')));
+            // console.log(_.keys(_.get(user, 'roles')));
             /// Set an array of user roles, ie ['admin', 'author', ...]
             return this.userRoles = _.keys(_.get(user, 'roles'))
         })

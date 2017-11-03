@@ -8,7 +8,7 @@ export class Lening {
   status?: string;
 
   constructor(leningData) {
-    this.hardware    = leningData.hardware;
+    this.hardware = leningData.hardware;
     this.huidige_blok = leningData.huidige_blok;
     this.nieuw_blok = leningData.nieuw_blok;
     this.referentienummer = leningData.referentienummer;
