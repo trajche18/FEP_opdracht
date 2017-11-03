@@ -9,6 +9,8 @@ import {LeningService} from "./lening.service";
 import {LeningListComponent} from "../lening-list/lening-list.component";
 import {RouterModule} from "@angular/router";
 import {LeningDetailComponent} from "../lening-detail/lening-detail.component";
+import {HardwareModule} from "../../hardware/shared/hardware.module";
+import {HardwareService} from "../../hardware/shared/hardware.service";
 
 
 @NgModule({
@@ -19,6 +21,7 @@ import {LeningDetailComponent} from "../lening-detail/lening-detail.component";
         FormsModule,
         AngularFireDatabaseModule,
         RouterModule,
+        HardwareModule
     ],
     declarations: [
         LeningFormComponent,
@@ -26,7 +29,8 @@ import {LeningDetailComponent} from "../lening-detail/lening-detail.component";
         LeningDetailComponent,
     ],
     providers: [
-        LeningService
+        LeningService,
+        HardwareService
     ]
 })
 export class LeningModule { }

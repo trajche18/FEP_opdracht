@@ -1,0 +1,28 @@
+<h3>New Hardware Form</h3>
+<label class="label">Name:</label>
+<input placeholder="Hardware Naam" class="input"
+       [(ngModel)]="hardware.naam"
+       required minlength="2" maxlength="100"
+       #naam='ngModel' autofocus>
+
+<label class="label">Aantal:</label>
+<input placeholder="Hardware Aantal" class="input" input type="number" pattern="[0-9]"
+       [(ngModel)]="hardware.aantal"
+       required minlength="2" maxlength="100"
+       #aantal='ngModel' autofocus>
+
+<label class="label">Beschrijving:</label>
+<input placeholder="Hardware Beschrijving" class="input"
+       [(ngModel)]="hardware.beschrijving"
+       required minlength="2" maxlength="100"
+       #beschrijving='ngModel' autofocus>
+
+<label class="label">Serienummer:</label>
+<input placeholder="Hardware Serienummer" class="input"
+       [(ngModel)]="hardware.serienummer"
+       required minlength="2" maxlength="100"
+       #serienummer='ngModel' autofocus>
+
+<button class="button is-primary" (click)='createHardware()'>Toevoegen</button>
+
+

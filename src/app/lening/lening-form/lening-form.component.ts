@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
 import {Lening} from '../shared/lening';
 import {LeningService} from "../shared/lening.service";
+import {AuthService} from "../../core/auth.service";
+import {Router} from "@angular/router";
+import {HardwareService} from "../../hardware/shared/hardware.service";
 
 @Component({
   selector: 'lening-form',
@@ -9,52 +12,57 @@ import {LeningService} from "../shared/lening.service";
   styleUrls: ['lening-form.component.scss']
 })
 export class LeningFormComponent implements OnInit {
-
-  lening: Lening = new Lening();
-  userForm: FormGroup;
-  userInformation = {voornaam:  '', achternaam: '', studentnummer: ''};
+  hardwares: any;
+ // lening: Lening = new Lening();
+  leningForm: FormGroup;
+  leningInformation = {hardwareid:  '',huidige_blok: '',nieuw_blok: '', referentienummer: '', gebruikersId: '', status: ''};
   submitted = false;
   newUser = true; // to toggle login or signup form
   errors = [];
 
   formErrors = {
-    'email': '',
-    'password': '',
-    'voornaam': '',
-    'achternaam': '',
-    'studentnummer': '',
+    'hardware': '',
+    'blok': '',
   };
   validationMessages = {
-    'email': {
-      'required': 'Email is required.',
-      'email': 'Email must be a valid email'
+    'hardware': {
+      'required': 'Hardware must be a valid hardware.'
     },
-    'password': {
-      'required': 'Password is required.',
-      'pattern': 'Password must be include at one letter and one number.',
-      'minlength': 'Password must be at least 4 characters long.',
-      'maxlength': 'Password cannot be more than 40 characters long.',
+
+    'blok': {
+      'required': 'Blok must be a valid blok.'
     },
-    'voornaam': {
-      'required': 'Voornaam is verplicht',
-    },
-    'achternaam': {
-      'required': 'Achternaam is verplicht',
-    },
-    'studentnummer': {
-      'required': 'Studentnummer is verplicht',
-      'pattern': 'Studentnummer dient numeriek te zijn',
-    }
+    // 'password': {
+    //   'required': 'Password is required.',
+    //   'pattern': 'Password must be include at one letter and one number.',
+    //   'minlength': 'Password must be at least 4 characters long.',
+    //   'maxlength': 'Password cannot be more than 40 characters long.',
+    // },
+    // 'voornaam': {
+    //   'required': 'Voornaam is verplicht',
+    // },
+    // 'achternaam': {
+    //   'required': 'Achternaam is verplicht',
+    // },
+    // 'studentnummer': {
+    //   'required': 'Studentnummer is verplicht',
+    //   'pattern': 'Studentnummer dient numeriek te zijn',
+    // }
   };
 
-  constructor(private leningService : LeningService, private fb: FormBuilder, private auth: AuthService, public router: Router) { }
+  constructor(private leningService : LeningService, private hardwareService : HardwareService, private fb: FormBuilder, private auth: AuthService, public router: Router) {
+    //this.hardwares = this.hardwareService.getHardwares();
+    this.hardwareService.getHardwareList().subscribe((hardware) => {this.hardwares = hardware});
+  }
 
   ngOnInit(): void {
     this.buildForm();
+
+    //this.hardwareService.getHardwares().subscribe(item => )
   }
   createLening() {
-    this.leningService.createLening(this.lening)
-    this.lening = new Lening() // reset de lening
+   // this.leningService.createLening(this.lening)
+   // this.lening = new Lening() // reset de lening
   }
 
   toggleForm() {
@@ -64,8 +72,8 @@ export class LeningFormComponent implements OnInit {
   signup(): void {
     this.submitted = true;
     this.errors = [''];
-    this.LeningInformation = {hardware: this.userForm.value['voornaam'], achternaam: this.userForm.value['achternaam'], studentnummer: this.userForm.value['studentnummer']};
-    this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password'], this.userInformation)
+  //  this.leningInformation = {hardware: this.leningForm.value['hardware'], blok: this.leningForm.value['blok'], studentnummer: this.leningForm.value['studentnummer']};
+    this.auth.emailSignUp(this.leningForm.value['email'], this.leningForm.value['password'], this.leningInformation)
       .catch(error => {
         this.errors = [];
         this.errors.push(error.message);
@@ -73,52 +81,37 @@ export class LeningFormComponent implements OnInit {
       if(this.errors[0] === '')
         this.errors = [];
       setTimeout(() => {
-        this.router.navigate(['/user/dashboard']);
+        this.router.navigate(['/lening/dashboard']);
       }, 2000);
 
     })
   }
 
-  login(): void {
-    this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password'])
-  }
+  // login(): void {
+  //   this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password'])
+  // }
 
   buildForm(): void {
-    this.userForm = this.fb.group({
-      'email': ['', [
-        Validators.required,
-        Validators.email
+    this.leningForm = this.fb.group({
+      'hardware': ['', [
+        Validators.required
       ]
       ],
-      'password': ['', [
-        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-        Validators.minLength(6),
-        Validators.maxLength(25)
+      'blok': ['', [
+        Validators.required
       ]
       ],
-      'voornaam': ['', [
-        Validators.required,
-      ]
-      ],
-      'achternaam': ['', [
-        Validators.required,
-      ]
-      ],
-      'studentnummer': ['', [
-        Validators.required,
-        Validators.pattern('^(0|[1-9][0-9]*)$'),
-      ]
-      ],
+
     });
 
-    this.userForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.leningForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // reset validation messages
   }
 
   // Updates validation state on form changes.
   onValueChanged(data?: any) {
-    if (!this.userForm) { return; }
-    const form = this.userForm;
+    if (!this.leningForm) { return; }
+    const form = this.leningForm;
     for (const field in this.formErrors) {
       if (Object.prototype.hasOwnProperty.call(this.formErrors, field)) {
         // clear previous error message (if any)

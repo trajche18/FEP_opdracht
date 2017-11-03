@@ -15,10 +15,28 @@ export class LeningService {
   leningen: Observable<Lening[]>; //  list of objects
   lening:  Observable<Lening>;   //   single object
 
-  userRoles: Array<string>;
+  blokken = ['Blok A', 'Blok B', 'Blok C', 'Blok D', 'Blok E']
+  get alleBlokken(): Array<string> {
+    return this.blokken;
+  }
 
+
+  nextBlok(gekozenBlok: string){
+    for(let i = 0; i<this.blokken.length; i++) {
+      console.log(i);
+      if(this.blokken.length-1 == i){
+        return this.blokken[0];
+      }
+      if(this.blokken[i] === gekozenBlok) {
+        return this.blokken[i+1];
+      }
+    }
+  }
+
+  userRoles: Array<string>;
     constructor(private auth: AuthService,
                 private db: AngularFireDatabase) {
+      console.log(this.nextBlok('Blok C'));
         auth.user.map(user => {
             console.log(_.keys(_.get(user, 'roles')));
             /// Set an array of user roles, ie ['admin', 'author', ...]
@@ -79,5 +97,4 @@ export class LeningService {
         }
         else console.log('action prevented!')
     }
-
 }
