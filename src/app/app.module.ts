@@ -41,16 +41,24 @@ import {UsersModule} from "./users/users.module";
 import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 import { DashboardComponent } from './users/dashboard/dashboard.component';
 import { ProfileComponent } from './users/profile/profile.component';
+import {MailModule} from "./mail/mail.module";
+import {HttpClientModule} from "@angular/common/http";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HardwareModule} from "./hardware/shared/hardware.module";
+import { ListComponent } from './hardware/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ListComponent,
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
+    MailModule,
     FormsModule,
     AppRoutingModule,
+    NgbModule.forRoot(),
     CoreModule,
     SharedModule,
     ItemModule,
@@ -58,6 +66,7 @@ import { ProfileComponent } from './users/profile/profile.component';
     UsersModule,
     UiModule,
     NotesModule,
+    HardwareModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
   bootstrap: [

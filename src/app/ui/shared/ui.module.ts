@@ -14,6 +14,8 @@ import { UserFormComponent } from '../user-form/user-form.component';
 import { TopNavComponent } from '../top-nav/top-nav.component';
 import { FooterNavComponent } from '../footer-nav/footer-nav.component';
 import { ReadmePageComponent } from '../readme-page/readme-page.component';
+import {MailModule} from "../../mail/mail.module";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 
@@ -24,7 +26,9 @@ import { ReadmePageComponent } from '../readme-page/readme-page.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    BrowserAnimationsModule
+    MailModule,
+    BrowserAnimationsModule,
+    NgbModule,
   ],
   declarations: [
     TopNavComponent,
