@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedModule } from '../../shared/shared.module';
 import {LeningFormComponent} from "../lening-form/lening-form.component";
@@ -11,22 +12,25 @@ import {RouterModule} from "@angular/router";
 import {LeningDetailComponent} from "../lening-detail/lening-detail.component";
 import {HardwareModule} from "../../hardware/shared/hardware.module";
 import {HardwareService} from "../../hardware/shared/hardware.service";
+import {AppComponent} from "../../app.component";
 
 
 @NgModule({
+
     imports: [
+      NgbModule,
         CommonModule,
         SharedModule,
         ReactiveFormsModule,
         FormsModule,
         AngularFireDatabaseModule,
         RouterModule,
-        HardwareModule
+        HardwareModule,
     ],
     declarations: [
         LeningFormComponent,
         LeningListComponent,
-        LeningDetailComponent,
+        LeningDetailComponent
     ],
     providers: [
         LeningService,

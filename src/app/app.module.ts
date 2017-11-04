@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 ///// Start FireStarter
@@ -58,7 +59,8 @@ import { ProfileComponent } from './users/profile/profile.component';
     UsersModule,
     UiModule,
     NotesModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    NgbModule.forRoot()
   ],
   bootstrap: [
     AppComponent

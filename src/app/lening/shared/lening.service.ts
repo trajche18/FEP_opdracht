@@ -85,12 +85,17 @@ export class LeningService {
         return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
     }
     // Create a bramd new item
-  createLening(lening: Lening): void {
+  createLening(lening: Lening): boolean {
     if ( this.canCreate ) {
       this.leningenRef.push(lening)
+      return true;
     }
-    else console.log('action prevented!')
+    else {
+      console.log('action prevented!')
+      return false;
+    }
   }
+
     deleteLening(key) {
         if ( this.canDelete ) {
             return this.db.list('leningen/' + key).remove()

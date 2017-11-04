@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
 import {Lening} from '../shared/lening';
 import {LeningService} from "../shared/lening.service";
@@ -6,6 +6,8 @@ import {AuthService} from "../../core/auth.service";
 import {Router} from "@angular/router";
 import {HardwareService} from "../../hardware/shared/hardware.service";
 import {Hardware} from "../../hardware/shared/hardware";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+
 
 @Component({
   selector: 'lening-form',
@@ -13,6 +15,10 @@ import {Hardware} from "../../hardware/shared/hardware";
   styleUrls: ['lening-form.component.scss']
 })
 export class LeningFormComponent implements OnInit {
+  @ViewChild('success') successModal: ElementRef;
+  @ViewChild('error') errorModal: ElementRef;
+  @ViewChild('content') contentModal: ElementRef;
+
   hardwares: any;
  // lening: Lening = new Lening();
   leningForm: FormGroup;
@@ -20,11 +26,15 @@ export class LeningFormComponent implements OnInit {
   submitted = false;
   errors = [];
   userId: string;
+  closeResult: string;
+  error: any;
+  success: any;
 
   formErrors = {
     'hardware': '',
     'blok': '',
   };
+
   validationMessages = {
     'hardware': {
       'required': 'Hardware must be a valid hardware.'
@@ -33,33 +43,16 @@ export class LeningFormComponent implements OnInit {
     'blok': {
       'required': 'Blok must be a valid blok.'
     },
-    // 'password': {
-    //   'required': 'Password is required.',
-    //   'pattern': 'Password must be include at one letter and one number.',
-    //   'minlength': 'Password must be at least 4 characters long.',
-    //   'maxlength': 'Password cannot be more than 40 characters long.',
-    // },
-    // 'voornaam': {
-    //   'required': 'Voornaam is verplicht',
-    // },
-    // 'achternaam': {
-    //   'required': 'Achternaam is verplicht',
-    // },
-    // 'studentnummer': {
-    //   'required': 'Studentnummer is verplicht',
-    //   'pattern': 'Studentnummer dient numeriek te zijn',
-    // }
   };
 
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-
   generateReferentieNummer() {
     return this.getRandomInt(1, 10000);
   }
 
-  constructor(private leningService : LeningService, private hardwareService : HardwareService, private fb: FormBuilder, private auth: AuthService, public router: Router) {
+  constructor(private leningService : LeningService, private hardwareService : HardwareService, private fb: FormBuilder, private auth: AuthService, public router: Router, private modalService: NgbModal) {
     //this.hardwares = this.hardwareService.getHardwares();
     auth.currentUserObservable.subscribe((user) => {
       this.userId = user.uid;
@@ -79,7 +72,8 @@ export class LeningFormComponent implements OnInit {
 
     //this.hardwareService.getHardwares().subscribe(item => )
   }
-  createLening() {
+  createLening(content) {
+    this.modalService.open(content).result.then((result) =>{
     this.leningInformation.hardware = this.leningForm.value['hardware'];
     this.leningInformation.huidige_blok = this.leningForm.value['blok'];
     this.leningInformation.nieuw_blok = this.leningService.nextBlok(this.leningForm.value['blok']);
@@ -87,10 +81,28 @@ export class LeningFormComponent implements OnInit {
     this.leningInformation.gebruikersId = this.userId;
     this.leningInformation.status = "In behandeling";
 
-
+    if(this.leningForm.valid){
+      this.createLening(this.successModal);
+      this.leningService.createLening(this.leningInformation as Lening);
+    }
+    else {
+      this.createLening(this.errorModal);
+    }
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     console.log(this.leningInformation);
-    this.leningService.createLening(this.leningInformation as Lening);
    // this.lening = new Lening() // reset de lening
+    }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
   signup(): void {
