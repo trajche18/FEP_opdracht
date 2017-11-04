@@ -16,7 +16,7 @@ export class LeningFormComponent implements OnInit {
   hardwares: any;
  // lening: Lening = new Lening();
   leningForm: FormGroup;
-  leningInformation = {hardware:  '',huidige_blok: '',nieuw_blok: '', referentienummer: '', gebruikersId: '', status: ''};
+  leningInformation = {hardware:  '',huidige_blok: '',nieuw_blok: '', referentienummer: '', gebruikersId: '', status: '', geplaatst_datum: ''};
   submitted = false;
   errors = [];
   userId: string;
@@ -86,8 +86,7 @@ export class LeningFormComponent implements OnInit {
     this.leningInformation.referentienummer = this.generateReferentieNummer();
     this.leningInformation.gebruikersId = this.userId;
     this.leningInformation.status = "In behandeling";
-
-
+    this.leningInformation.geplaatst_datum = new Date().toString();
     console.log(this.leningInformation);
     this.leningService.createLening(this.leningInformation as Lening);
    // this.lening = new Lening() // reset de lening
@@ -110,6 +109,7 @@ export class LeningFormComponent implements OnInit {
 
     })
   }
+
 
   // login(): void {
   //   this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password'])

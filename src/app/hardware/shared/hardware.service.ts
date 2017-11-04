@@ -46,6 +46,15 @@ export class HardwareService {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
     })
   }
+
+
+  /// Get Data
+  getHardware(key: string): Observable<Hardware> {
+    const itemPath = 'hardware/' + key;
+    this.hardware = this.db.object(itemPath).valueChanges();
+    return this.hardware;
+  }
+
 /// Authorization Logic /////
 
   get canRead(): boolean {

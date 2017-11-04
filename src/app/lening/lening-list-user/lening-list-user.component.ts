@@ -1,24 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {Hardware} from "../shared/hardware";
-import {HardwareService} from "../shared/hardware.service";
-import { Observable } from 'rxjs/Observable';
-import {LeningService} from "../../lening/shared/lening.service";
+import {HardwareService} from "../../hardware/shared/hardware.service";
+import {LeningService} from "../shared/lening.service";
 import {AuthService} from "../../core/auth.service";
-import {Lening} from "../../lening/shared/lening";
-import {element} from "protractor";
+import {Lening} from "../shared/lening";
 import * as _ from 'lodash';
+import {UsersService} from "../../users/shared/users.service";
 
 @Component({
-  selector: 'hardware-list-user',
-  templateUrl: './hardware-list-user.component.html',
-  styleUrls: ['./hardware-list-user.component.scss']
+  selector: 'lening-list-user',
+  templateUrl: './lening-list-user.component.html',
+  styleUrls: ['./lening-list-user.component.scss']
 })
-export class HardwareListUserComponent implements OnInit {
+export class LeningListUserComponent implements OnInit {
   hardwares = [];
   showSpinner = true;
   allLeningen : any;
 
-  constructor(private hardwareService: HardwareService, private leningService: LeningService, private auth : AuthService) {
+  constructor(private hardwareService: HardwareService, private leningService: LeningService, private auth : AuthService, private userService: UsersService) {
     this.leningService.getLeningen().snapshotChanges().subscribe((lening) => {
       this.allLeningen = [];
       lening.forEach(elem => {
@@ -32,14 +30,17 @@ export class HardwareListUserComponent implements OnInit {
         for (let i = 0; i < this.allLeningen.length; i++){
           let hardwareid = this.allLeningen[i].hardware;
           hardwareService.getHardware(hardwareid).subscribe((hardware) => {
-            this.hardwares.push(hardware);
+            this.allLeningen[i].hardware = hardware;
+          })
+          this.userService.getUser(this.allLeningen[i].gebruikersId).subscribe((user) => {
+            this.allLeningen[i].gebruiker = user;
           })
         }
         this.showSpinner = false;
       });
     })
-
   }
+
   ngOnInit() {
   }
 

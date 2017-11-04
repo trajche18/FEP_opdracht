@@ -19,6 +19,7 @@ import {ProfileGuard} from "./core/profile.guard";
 import {HardwareListComponent} from "./hardware/hardware-list/hardware-list.component";
 import {HardwareToevoegenComponent} from "./hardware/toevoegen/hardware-toevoegen.component";
 import {HardwareListUserComponent} from "./hardware/hardware-list-user/hardware-list-user.component";
+import {LeningListUserComponent} from "./lening/lening-list-user/lening-list-user.component";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
@@ -28,19 +29,22 @@ const routes: Routes = [
     {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, ProfileGuard]},
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   ]},
-  { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard]},
+  { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard,ProfileGuard]},
   { path: 'hardware', children: [
-    {path: 'new', component: HardwareToevoegenComponent, canActivate[AuthGuard, BeheerderGuard]},
-    {path: 'list', component: HardwareListComponent, canActivate: [AuthGuard, BeheerderGuard]},
+    {path: 'new', component: HardwareToevoegenComponent, canActivate: [AuthGuard, BeheerderGuard, ProfileGuard]},
+    {path: 'list', component: HardwareListComponent, canActivate: [AuthGuard, BeheerderGuard, ProfileGuard]},
     {path: 'list', children: [
-      {path: 'user', component: HardwareListUserComponent, canActivate: [AuthGuard]},
+      {path: 'user', component: HardwareListUserComponent, canActivate: [AuthGuard, ProfileGuard]},
     ]}
   ]},
-  { path: 'hardware', children: [
-    {path: 'new', component: LeningFormComponent},
-    {path: 'list', component: LeningListComponent, canActivate: [BeheerderGuard]},
+  { path: 'lening', children: [
+    {path: 'new', component: LeningFormComponent, canActivate: [AuthGuard, ProfileGuard]},
+    {path: 'list', component: LeningListComponent, canActivate: [AuthGuard, BeheerderGuard, ProfileGuard]},
+    {path: 'list', children: [
+      {path: 'user', component: LeningListUserComponent, canActivate: [AuthGuard, ProfileGuard]},
+    ]}
   ]},
-  { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
+  { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard, ProfileGuard] },
   // uploads are lazy loaded
   { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] }
 ];

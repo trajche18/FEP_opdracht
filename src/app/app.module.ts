@@ -37,7 +37,7 @@ import { LeningListComponent } from './lening/lening-list/lening-list.component'
 import {LeningModule} from "./lening/shared/lening.module";
 import { RegisterComponent } from './users/register/register.component';
 import { LoginComponent } from './users/login/login.component';
-import {UsersModule} from "./users/users.module";
+import {UsersModule} from "./users/shared/users.module";
 import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 import { DashboardComponent } from './users/dashboard/dashboard.component';
 import { ProfileComponent } from './users/profile/profile.component';
@@ -45,6 +45,8 @@ import {MailModule} from "./mail/mail.module";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HardwareModule} from "./hardware/shared/hardware.module";
+import { LeningListUserComponent } from './lening/lening-list-user/lening-list-user.component';
+import { LeningDetailUserComponent } from './lening/lening-detail-user/lening-detail-user.component';
 
 @NgModule({
   declarations: [

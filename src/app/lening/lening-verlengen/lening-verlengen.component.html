@@ -1,0 +1,85 @@
+<article>
+  <h2><span>Kies een geleende hardware die u wilt verlengen</span></h2>
+  <select (change)="selectChangedHandler ($event)">
+    <option value="">--kies hardware--</option>
+    <option value="firebase1">FireBase1</option>
+    <option value="firebase2">FireBase2</option>
+    <option value="firebase3">FireBase3</option>
+  </select>
+  <form [formGroup]="verlengenForm"  (ngSubmit)="createLening()">
+
+    <select name="hardware" id="hardware"
+            formControlName="hardware" required>
+      <option value="">--kies hardware--</option>
+      <option *ngFor="let al of allLeningen" [ngValue]="al.$key">{{al.hardware.naam}}</option>
+    </select>
+  </form>
+</article>
+
+<ul>
+  <li *ngFor="let h of hardware | async">
+    {{h.$value}}
+  </li>
+</ul>
+
+
+<hr>
+<!--<div id="hiddenDiv" style="display:none">-->
+<div *ngIf="selectedHardware != ''">
+<p><span><b>Hardeware naam:</b></span>
+  {{selectedHardware}}
+</p>
+  <p><span><b>Voornaam:</b></span>
+
+  </p>
+  <p><span><b>Achternaam:</b></span>
+
+  </p>
+  <p><span><b>Studentnummer:</b></span>
+
+  </p>
+  <p><span><b>Emailadres:</b></span>
+
+  </p>
+  <p><span><b>Referentienummer:</b></span>
+
+  </p>
+  <p><span><b>Huidige retour blok:</b></span>
+
+  </p>
+  <p><span><b>Nieuwe retour blok:</b></span>
+
+  </p>
+
+<!--(in blok e verlengen mag je lenen tot blok A -->
+  <p><u>Door op de button "Verlengen" te klikken wordt uw hardware met één blok verlengd.</u></p>
+  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Verlengen</button>
+</div>
+
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Bevestiging</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('muis klik')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><b>Weet u zeker dat u de gekozen hardware lening voor één blok wilt verlengen?</b></p>
+    <p><i>Bij bevestiging ontvangt u een email met de bijbehorende informatie</i></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('ja')">Ja</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('anu')">Annuleren</button>
+
+  </div>
+</ng-template>
+
+
+<hr>
+<pre>{{closeResult}}</pre>
+
+
+

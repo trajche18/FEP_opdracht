@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
-import {User} from "../users/user";
+import {User} from "../users/shared/user";
 
 import * as _ from "lodash";
 

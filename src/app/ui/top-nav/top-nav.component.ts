@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {AuthService} from "../../core/auth.service";
 import { Router } from '@angular/router';
+import {NavService} from "../shared/nav.service";
 
 @Component({
   selector: 'top-nav',
@@ -11,7 +12,7 @@ export class TopNavComponent {
 
   show = false;
 
-  constructor(public auth: AuthService, public router: Router) { }
+  constructor(public auth: AuthService, public router: Router, private navService: NavService) { }
 
   toggleCollapse() {
     this.show = !this.show

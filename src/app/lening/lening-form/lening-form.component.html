@@ -1,47 +1,42 @@
 <h3>Hardware Lening Form</h3>
 <p>  Please select the hardware you want to lend and select the block you want to lend the hardware in!</p>
 
-<div class="content columns">
-  <div class="column is-5 is-offset-4">
-    <form [formGroup]="leningForm"  (ngSubmit)="createLening()">
 
-      <h3>Registratie</h3>
+<form [formGroup]="leningForm"  (ngSubmit)="createLening()">
 
-      <div *ngIf="leningForm.valid && submitted && errors.length == 0" class="notification is-success">Uw aanvraag is voldaan. U krijgt binnen enkele minuten een mailtje op de, door u opgegeven, email</div>
+  <div *ngIf="leningForm.valid && submitted && errors.length == 0" class="notification is-success">Uw aanvraag is voldaan. U krijgt binnen enkele minuten een mailtje op de, door u opgegeven, email</div>
 
-      <div *ngIf="leningForm.valid && submitted && errors.length > 0" class="notification is-danger">{{errors[0]}}</div>
+  <div *ngIf="leningForm.valid && submitted && errors.length > 0" class="notification is-danger">{{errors[0]}}</div>
 
-      <label class="label">Hardware: </label>
-      <select name="hardware" id="hardware"
-              formControlName="hardware" required>
-        <option value="">--kies hardware--</option>
-        <option *ngFor="let hw of hardwares" [ngValue]="hw.$key">{{hw.naam}}</option>
-      </select>
+  <label class="label">Hardware: </label>
+  <select name="hardware" id="hardware" class="form-control"
+          formControlName="hardware" required>
+    <option value="">--kies hardware--</option>
+    <option *ngFor="let hw of hardwares" [ngValue]="hw.$key">{{hw.naam}}</option>
+  </select>
 
-      <div *ngIf="formErrors.hardware" class="notification is-danger">
-        {{ formErrors.hardware }}
-      </div>
-
-      <label class="label">Blok: </label>
-      <select name="blok" id="blok"
-              formControlName="blok" required>
-        <option value="">--kies blok--</option>
-        <option value="Blok A">Blok A</option>
-        <option value="Blok B">Blok B</option>
-        <option value="Blok C">Blok C</option>
-        <option value="Blok D">Blok D</option>
-        <option value="Blok E">Blok E</option>
-      </select>
-
-      <div *ngIf="formErrors.blok" class="notification is-danger">
-        {{ formErrors.blok }}
-      </div>
-
-
-
-      <button type="submit" class="button" [disabled]="!leningForm.valid">Lenen</button>
-
-
-    </form>
+  <div *ngIf="formErrors.hardware" class="notification is-danger">
+    {{ formErrors.hardware }}
   </div>
-</div>
+
+  <label class="label">Blok: </label>
+  <select name="blok" id="blok" class="form-control"
+          formControlName="blok" required>
+    <option value="">--kies blok--</option>
+    <option value="Blok A">Blok A</option>
+    <option value="Blok B">Blok B</option>
+    <option value="Blok C">Blok C</option>
+    <option value="Blok D">Blok D</option>
+    <option value="Blok E">Blok E</option>
+  </select>
+
+  <div *ngIf="formErrors.blok" class="notification is-danger">
+    {{ formErrors.blok }}
+  </div>
+
+
+<br />
+  <button type="submit" class="button" [disabled]="!leningForm.valid">Lenen</button>
+
+
+</form>

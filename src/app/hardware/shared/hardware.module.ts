@@ -11,6 +11,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HardwareDetailUserComponent} from "../hardware-detail-user/hardware-detail-user.component";
 import {HardwareListUserComponent} from "../hardware-list-user/hardware-list-user.component";
 import {LeningService} from "../../lening/shared/lening.service";
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {LeningService} from "../../lening/shared/lening.service";
     ReactiveFormsModule,
     FormsModule,
     AngularFireDatabaseModule,
-    NgbModule
+    NgbModule,
+    RouterModule,
   ],
   declarations: [
     HardwareToevoegenComponent,

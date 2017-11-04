@@ -1,0 +1,14 @@
+<h1>Leningen</h1>
+
+<p>Hier kunt u een overzicht zien van al uw geplaatste leningen:</p>
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn btn-outline-dark pull-right" routerLink="/lening/new">Nieuwe lening plaatsen</button><br />
+    <br />
+  </div>
+</div>
+<div *ngFor="let lening of allLeningen" class="card">
+  <lening-detail-user [lening]='lening'></lening-detail-user>
+</div>
+
+<loading-spinner *ngIf="showSpinner"></loading-spinner>

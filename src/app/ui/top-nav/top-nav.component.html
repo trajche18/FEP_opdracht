@@ -22,19 +22,19 @@
     <a class="nav-item" routerLink="/user/login" *ngIf="!auth.currentUser;">
       Login
     </a>
-    <a class="nav-item" routerLink="/notes">
-      Firestore
-    </a>
     <a class="nav-item" routerLink="/user/dashboard" *ngIf="auth.currentUser;">
       Dashboard
     </a>
-    <a class="nav-item" routerLink="/items">
-      Realtime DB
-    </a>
-    <a class="nav-item" routerLink="/hardware/list">
+    <a class="nav-item" routerLink="/hardware/list/user" *ngIf="navService.isGebruiker && !navService.isBeheerder">
       Hardware
     </a>
-    <a class="nav-item" routerLink="/lening/list">
+    <a class="nav-item" routerLink="/lening/list/user" *ngIf="navService.isGebruiker && !navService.isBeheerder">
+      Leningen
+    </a>
+    <a class="nav-item" routerLink="/hardware/list" *ngIf="navService.isBeheerder">
+      Hardware
+    </a>
+    <a class="nav-item" routerLink="/lening/list" *ngIf="navService.isBeheerder">
       Leningen
     </a>
   </div>

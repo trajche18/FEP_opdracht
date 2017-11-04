@@ -2,7 +2,7 @@
 
 <p>Dit zijn de door u geleende hardwares:</p>
 
-<div *ngFor="let hardware of hardwares | async" class="card">
+<div *ngFor="let hardware of hardwares" class="card">
   <hardware-detail [hardware]='hardware'></hardware-detail>
 </div>
 

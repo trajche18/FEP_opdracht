@@ -47,7 +47,7 @@ export class MailProviderMailgunService implements IMailProvider {
     this.settings.set(this._settingApiKeyName, value);
   }
 
-  private readonly _apiHostFormat = 'https://api.mailgun.net/v3/${DOMAIN_NAME_PLACEHOLDER}/messages'
+  private readonly _apiHostFormat = 'https://api.mailgun.net/v3/sandbox6a0d333799544b709fbcfea8f4580bae.mailgun.org/messages'
 
   private readonly _statusUrl = 'https://www.mailgun.com/';
 

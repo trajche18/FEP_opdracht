@@ -45,21 +45,25 @@ export class LeningService {
             .subscribe()
     }
 
-  getLeningenList(query?) {
-    // const itemsRef = afDb.list('/items')
-    // return this.itemsRef.valueChanges()
-    return this.leningenRef.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
-    })
-  }
 
     /// Get Data
+    getLeningenList(query?) {
+        // const itemsRef = afDb.list('/items')
+        // return this.itemsRef.valueChanges()
+        return this.leningenRef.snapshotChanges().map(arr => {
+            return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+        })
+    }
+
+
     getLeningen() {
         return this.db.list('leningen')
     }
+
     getLening(key) {
         return this.db.object('leningen/' + key)
     }
+
     ///// Authorization Logic /////
 
     get canRead(): boolean {
@@ -94,6 +98,13 @@ export class LeningService {
     deleteLening(key) {
         if ( this.canDelete ) {
             return this.db.list('leningen/' + key).remove()
+        }
+        else console.log('action prevented!')
+    }
+
+    editLening(lening, newData) {
+        if ( this.canEdit ) {
+            return this.db.object('leningen/' + lening.$key).update(newData)
         }
         else console.log('action prevented!')
     }

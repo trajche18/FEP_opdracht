@@ -5,21 +5,15 @@ import * as _ from 'lodash';
 import {Lening} from "../shared/lening";
 import {LeningService} from "../shared/lening.service";
 import {MailSenderService} from "../../mail/mail-sender.service";
-
-
 @Component({
-  selector: 'lening-detail',
-  templateUrl: './lening-detail.component.html',
-  styleUrls: ['./lening-detail.component.scss']
+  selector: 'lening-detail-user',
+  templateUrl: './lening-detail-user.component.html',
+  styleUrls: ['./lening-detail-user.component.scss']
 })
-export class LeningDetailComponent implements OnInit {
+export class LeningDetailUserComponent implements OnInit {
 
   @Input() lening: Lening;
   @ViewChild('content') modal:ElementRef;
-
-  @ViewChild('success') successModal:ElementRef;
-  @ViewChild('failure') failureModal:ElementRef;
-
   leningForm: FormGroup;
   displayForm = false;
   submitted = false;
@@ -90,7 +84,7 @@ export class LeningDetailComponent implements OnInit {
     let self = this;
     setTimeout(function () {
       self.submitted = false;
-    }, 3000);
+    }, 2000);
     this.lening.status = this.leningForm.value['status'];
     this.leningService.editLening(this.lening, {'status' : this.leningForm.value['status']}).then(() => {
       this.sendMail(email, 'Status wijziging lening', 'De status van uw lening met referentienummer ('+this.lening.referentienummer+') is zojuist aangepast naar "'+ this.lening.status +'"');
@@ -145,4 +139,5 @@ export class LeningDetailComponent implements OnInit {
   /*  deleteItem() {
    this.hardwareSerive.de(this.lening.$key)
    }*/
+
 }

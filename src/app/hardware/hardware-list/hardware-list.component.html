@@ -1,7 +1,12 @@
 <h1>Hardwares</h1>
 
 <p>Dit zijn de hardwares die u kunt aanpassen:</p>
-
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn btn-outline-dark pull-right" routerLink="/hardware/new">Nieuwe hardware toevoegen</button><br />
+    <br />
+  </div>
+</div>
 <div *ngFor="let hardware of hardwares | async" class="card">
   <hardware-detail [hardware]='hardware'></hardware-detail>
 </div>

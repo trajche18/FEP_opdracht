@@ -38,6 +38,9 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
   exports: [
     TopNavComponent,
     FooterNavComponent,
+  ],
+  providers: [
+    NavService
   ]
 })
 export class UiModule { }

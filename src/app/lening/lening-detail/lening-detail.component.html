@@ -1,18 +1,77 @@
-<h3 [ngClass]="{ 'strike-out': !lening.active }">
-  {{ lening.title || 'missing title' }}
-</h3>
-
-
 <div class="card-content">
-
-  Task Active?: {{ lening.active }}<br>
-  {{ lening.timeStamp | date: 'medium' }}
-
+  <div class="row">
+    <div class="col-md-9">
+      ({{lening.referentienummer}}) <b>{{lening.hardware.naam}}</b><br />
+      <b>Datum:</b> {{lening.geplaatst_datum}}<br />
+      <b>Door:</b> {{lening.gebruiker?.voornaam}} {{lening.gebruiker?.achternaam}}<br />
+      Van <b>{{lening.huidige_blok}}</b> tot <b>{{lening.nieuw_blok}}</b>
+    </div>
+    <div class="col-md-3">
+      <button class="btn pull-right"(click)="editStatus(lening)">Meer informatie</button>
+    </div>
+  </div>
 </div>
 
-<div class="card-footer">
-  <span class="button is-small is-info card-footer-lening" (click)='updateTimeStamp()'>Update Timestamp</span>
-  <span class="button is-small is-success card-footer-lening" *ngIf='lening.active' (click)='updateActive(false)'>Mark Complete</span>
-  <span class="button is-small is-warning card-footer-lening" *ngIf='!lening.active' (click)='updateActive(true)'>Mark Incomplete</span>
-  <span class="button is-small is-danger card-footer-lening" (click)='deleteLening()'>Delete</span>
-</div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{lening.hardware.naam}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <td><b>Voornaam:</b></td>
+        <td>{{lening.gebruiker?.voornaam}}</td>
+      </tr>
+      <tr>
+        <td><b>Achternaam:</b></td>
+        <td>{{lening.gebruiker?.achternaam}}</td>
+      </tr>
+      <tr>
+        <td><b>Studentnummer:</b></td>
+        <td>{{lening.gebruiker?.studentnummer}}</td>
+      </tr>
+      <tr>
+        <td><b>E-mail adres:</b></td>
+        <td>{{lening.gebruiker?.email}}</td>
+      </tr>
+      <tr>
+        <td><b>Referentienummer:</b></td>
+        <td>{{lening.referentienummer}}</td>
+      </tr>
+      <tr>
+        <td><b>Datum:</b></td>
+        <td>{{lening.geplaatst_datum}} </td>
+      </tr>
+      <tr>
+        <td><b>Gekozen blok:</b></td>
+        <td>{{lening.huidige_blok}} </td>
+      </tr>
+      <tr>
+        <td><b>Retour blok:</b></td>
+        <td>{{lening.nieuw_blok}} </td>
+      </tr>
+      <tr>
+        <td><hr /><b>Status:</b></td>
+        <td><hr />{{lening.status}} </td>
+      </tr>
+    </table>
+    <div class="status-message" *ngIf="displayForm">
+      <div *ngIf="leningForm.valid && submitted" class="notification is-success">Status aangepast, er is een mailtje verzonden naar de student met daarin een bevestiging.</div>
+      <form [formGroup]="leningForm"  (ngSubmit)="saveStatus(lening.gebruiker.email)">
+        <label for="status"><b>Nieuwe status</b></label><br />
+        <textarea id="status" formControlName="status" name="status" class="form-control"></textarea>
+        <div *ngIf="formErrors.status" class="notification is-danger">
+          {{ formErrors.status }}
+        </div><br />
+        <button type="submit" class="btn" [disabled]="!leningForm.valid">Opslaan</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="toggleStatus()"><span *ngIf="displayForm">Status bericht verbergen</span><span *ngIf="!displayForm">Status bewerken</span></button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Sluiten</button>
+  </div>
+</ng-template>
