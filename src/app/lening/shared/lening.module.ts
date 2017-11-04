@@ -39,7 +39,8 @@ import {LeningDetailUserComponent} from "../lening-detail-user/lening-detail-use
         LeningDetailComponent,
         LeningVerlengenComponent,
         LeningListUserComponent,
-        LeningDetailUserComponent
+        LeningDetailUserComponent,
+        LeningVerlengenComponent
     ],
     providers: [
         LeningService,

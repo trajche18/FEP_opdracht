@@ -20,6 +20,7 @@ import {HardwareListComponent} from "./hardware/hardware-list/hardware-list.comp
 import {HardwareToevoegenComponent} from "./hardware/toevoegen/hardware-toevoegen.component";
 import {HardwareListUserComponent} from "./hardware/hardware-list-user/hardware-list-user.component";
 import {LeningListUserComponent} from "./lening/lening-list-user/lening-list-user.component";
+import {LeningVerlengenComponent} from "./lening/lening-verlengen/lening-verlengen.component";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
@@ -42,7 +43,8 @@ const routes: Routes = [
     {path: 'list', component: LeningListComponent, canActivate: [AuthGuard, BeheerderGuard, ProfileGuard]},
     {path: 'list', children: [
       {path: 'user', component: LeningListUserComponent, canActivate: [AuthGuard, ProfileGuard]},
-    ]}
+    ]},
+    {path: 'verlengen', component: LeningVerlengenComponent, canActivate: [AuthGuard, ProfileGuard]},
   ]},
   { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard, ProfileGuard] },
   // uploads are lazy loaded

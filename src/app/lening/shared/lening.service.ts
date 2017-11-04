@@ -71,7 +71,7 @@ export class LeningService {
         return this.matchingRole(allowed);
     }
     get canEdit(): boolean {
-        const allowed = ['beheerder'];
+        const allowed = ['beheerder', 'gebruiker'];
         return this.matchingRole(allowed);
     }
     get canDelete(): boolean {
