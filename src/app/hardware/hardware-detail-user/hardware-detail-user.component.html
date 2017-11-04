@@ -1,0 +1,62 @@
+<div class="card-content">
+  <div class="row">
+    <div class="col-md-9">
+      <b>{{hardware.naam}}</b><br />
+      {{hardware.beschrijving}}
+    </div>
+    <div class="col-md-3">
+      <button class="btn pull-right"(click)="editStatus(hardware)">Meer informatie</button>
+    </div>
+  </div>
+
+
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{hardware.naam}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <td><b>Naam:</b></td>
+        <td>{{hardware.naam}}</td>
+      </tr>
+      <tr>
+        <td><b>Beschrijving:</b></td>
+        <td>{{hardware.beschrijving}}</td>
+      </tr>
+      <tr>
+        <td><b>Aantal:</b></td>
+        <td>{{hardware.aantal}}</td>
+      </tr>
+      <tr>
+        <td><b>Serienummer:</b></td>
+        <td>{{hardware.serienummer}}</td>
+      </tr>
+      <tr>
+        <td><b>Status:</b></td>
+        <td>{{hardware.status}} </td>
+      </tr>
+    </table>
+    <div class="status-message" *ngIf="displayForm">
+      <hr />
+      <div *ngIf="hardwareForm.valid && submitted" class="notification is-success">Status aangepast</div>
+      <form [formGroup]="hardwareForm"  (ngSubmit)="saveStatus()">
+        <label for="status"><b>Nieuwe status</b></label><br />
+        <textarea id="status" formControlName="status" name="status" class="form-control"></textarea>
+        <div *ngIf="formErrors.status" class="notification is-danger">
+          {{ formErrors.status }}
+        </div><br />
+        <button type="submit" class="btn" [disabled]="!hardwareForm.valid">Opslaan</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" (click)="toggleStatus()"><span *ngIf="displayForm">Status bericht verbergen</span><span *ngIf="!displayForm">Status bewerken</span></button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Sluiten</button>
+  </div>
+</ng-template>

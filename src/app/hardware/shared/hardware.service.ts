@@ -10,6 +10,7 @@ export class HardwareService {
   userRoles: Array<string>;
   itemsRef: AngularFireList<Hardware>;
   itemRef:  AngularFireObject<Hardware>;
+
   hardwares: Observable<Hardware[]>; //  list of objects
   hardware:  Observable<Hardware>;   //   single object
   constructor(private auth: AuthService,
@@ -25,13 +26,25 @@ export class HardwareService {
   }
 
   /// Get Data
-  getHardware(key: string): Observable<Hardware> {
+  /*getHardware(key: string): Observable<Hardware> {
     const itemPath = `${this.hardware}/${key}`;
     this.hardware = this.db.object(itemPath).valueChanges();
     return this.hardware;
+  }*/
+  getHardwareList(query?) {
+    // const itemsRef = afDb.list('/items')
+    // return this.itemsRef.valueChanges()
+    // return this.getHardwares().snapshotChanges().map(arr => {
+    //   return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+    // })
+    return this.itemsRef = this.db.list('/hardware')
   }
-  getHardwares() {
-    return this.db.list('hardware')
+  getHardwares(query?) {
+    // const itemsRef = afDb  .list('/items')
+    // return this.itemsRef.valueChanges()
+    return this.itemsRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+    })
   }
 /// Authorization Logic /////
 
@@ -58,12 +71,13 @@ export class HardwareService {
     return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
   }
   //// User Actions
- /* editHardware(lening, newData) {*/
-/*    if ( this.canEdit ) {
-      return this.db.object('hardware/' + lening.$key).update(newData)
+  editHardware(hardware, newData) {
+    if ( this.canEdit ) {
+      return this.db.object('hardware/' + hardware.$key).update(newData)
     }
     else console.log('action prevented!')
   }
+  /*
   deleteHardware(key) {
     if ( this.canDelete ) {
       return this.db.list('hardware/' + key).remove()
@@ -73,4 +87,8 @@ export class HardwareService {
   createHardware(hardware: Hardware): void {
     this.itemsRef.push(hardware);
   }
+
+ /* updateHardware(){
+    Code updaten van hardwareStatus
+  }*/
 }

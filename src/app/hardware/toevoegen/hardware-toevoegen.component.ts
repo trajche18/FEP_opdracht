@@ -4,8 +4,8 @@ import {HardwareService} from "../shared/hardware.service";
 
 @Component({
   selector: 'hardware-toevoegen',
-  templateUrl: 'hardware-toevoegen.component.html',
-  styleUrls: ['hardware-toevoegen.component.scss']
+  templateUrl: './hardware-toevoegen.component.html',
+  styleUrls: ['./hardware-toevoegen.component.scss']
 })
 export class HardwareToevoegenComponent implements OnInit {
   hardware: Hardware = new Hardware();

@@ -1,6 +1,17 @@
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-  </tr>
-</table>
+<h1>Hardwares</h1>
+
+<p>This page is a demo of a very basic todo list in Angular, using the Firebase Realtime DB on the backend.</p>
+
+<div *ngFor="let lening of leningen | async" class="card">
+  <lening-detail [lening]='lening'></lening-detail>
+</div>
+
+<loading-spinner *ngIf="showSpinner"></loading-spinner>
+
+
+
+<button type="button" class="button is-danger" (click)='deleteLeningen()'>Delete Entire List</button>
+
+<hr>
+
+<lening-form></lening-form>

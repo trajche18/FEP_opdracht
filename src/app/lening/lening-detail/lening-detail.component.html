@@ -1,0 +1,18 @@
+<h3 [ngClass]="{ 'strike-out': !lening.active }">
+  {{ lening.title || 'missing title' }}
+</h3>
+
+
+<div class="card-content">
+
+  Task Active?: {{ lening.active }}<br>
+  {{ lening.timeStamp | date: 'medium' }}
+
+</div>
+
+<div class="card-footer">
+  <span class="button is-small is-info card-footer-lening" (click)='updateTimeStamp()'>Update Timestamp</span>
+  <span class="button is-small is-success card-footer-lening" *ngIf='lening.active' (click)='updateActive(false)'>Mark Complete</span>
+  <span class="button is-small is-warning card-footer-lening" *ngIf='!lening.active' (click)='updateActive(true)'>Mark Incomplete</span>
+  <span class="button is-small is-danger card-footer-lening" (click)='deleteLening()'>Delete</span>
+</div>

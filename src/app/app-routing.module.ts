@@ -16,6 +16,9 @@ import {RegisterComponent} from "./users/register/register.component";
 import {DashboardComponent} from "./users/dashboard/dashboard.component";
 import {ProfileComponent} from "./users/profile/profile.component";
 import {ProfileGuard} from "./core/profile.guard";
+import {HardwareListComponent} from "./hardware/hardware-list/hardware-list.component";
+import {HardwareToevoegenComponent} from "./hardware/toevoegen/hardware-toevoegen.component";
+import {HardwareListUserComponent} from "./hardware/hardware-list-user/hardware-list-user.component";
 
 const routes: Routes = [
   { path: '', component: ReadmePageComponent },
@@ -26,7 +29,14 @@ const routes: Routes = [
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   ]},
   { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard]},
-  { path: 'lening', children: [
+  { path: 'hardware', children: [
+    {path: 'new', component: HardwareToevoegenComponent, canActivate[AuthGuard, BeheerderGuard]},
+    {path: 'list', component: HardwareListComponent, canActivate: [AuthGuard, BeheerderGuard]},
+    {path: 'list', children: [
+      {path: 'user', component: HardwareListUserComponent, canActivate: [AuthGuard]},
+    ]}
+  ]},
+  { path: 'hardware', children: [
     {path: 'new', component: LeningFormComponent},
     {path: 'list', component: LeningListComponent, canActivate: [BeheerderGuard]},
   ]},
