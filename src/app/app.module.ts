@@ -34,12 +34,13 @@ import { LeningListComponent } from './lening/lening-list/lening-list.component'
 import {LeningModule} from "./lening/shared/lening.module";
 import { RegisterComponent } from './users/register/register.component';
 import { LoginComponent } from './users/login/login.component';
-import {UsersModule} from "./users/users.module";
+import {UsersModule} from "./users/shared/users.module";
 import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
 import { DashboardComponent } from './users/dashboard/dashboard.component';
 import { ProfileComponent } from './users/profile/profile.component';
 import {LeningVerlengenComponent} from "./lening/lening-verlengen/lening-verlengen.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {HardwareModule} from "./hardware/shared/hardware.module";
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     SharedModule,
     ItemModule,
     LeningModule,
+    HardwareModule,
     UsersModule,
     UiModule,
     NotesModule,

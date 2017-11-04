@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef} from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database-deprecated';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {LeningService} from "../shared/lening.service";
@@ -8,6 +8,7 @@ import {element} from "protractor";
 import * as _ from 'lodash';
 import {HardwareService} from "../../hardware/shared/hardware.service";
 import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
+import {UsersService} from "../../users/shared/users.service";
 
 // git add .
 //   git commit -m "asd"
@@ -24,6 +25,9 @@ export class LeningVerlengenComponent implements OnInit {
   verlengenToestaan = false;
   allLeningen : any;
   verlengenForm: FormGroup;
+  @ViewChild('success') successModal: ElementRef;
+  @ViewChild('content') contentModal: ElementRef;
+  @ViewChild('failure') failureModal: ElementRef;
 
   // dbHardware: FirebaseListObservable<any[]>;
 
@@ -53,16 +57,15 @@ export class LeningVerlengenComponent implements OnInit {
   };
   selectChangedHandler(event: any) {
     this.selectedHardware = event.target.value;
+    console.log(this.selectedHardware);
   }
-
-
-
 
 
 
   closeResult: string;
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder, private leningService: LeningService, private auth: AuthService, private hardwareService: HardwareService) {
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private leningService: LeningService,
+              private auth: AuthService, private hardwareService: HardwareService, private userService: UsersService) {
     this.leningService.getLeningen().snapshotChanges().subscribe((lening) => {
       this.allLeningen = [];
       lening.forEach(elem => {
@@ -78,6 +81,10 @@ export class LeningVerlengenComponent implements OnInit {
             hardwareService.getHardware(hardwareid).subscribe((hardware) => {
               this.allLeningen[i].hardware = hardware;
               console.log(this.allLeningen[i]);
+            })
+
+            this.userService.getUser(this.allLeningen[i].gebruikersId).subscribe((user) => {
+              this.allLeningen[i].gebruiker = user;
             })
 
           }
@@ -121,7 +128,15 @@ export class LeningVerlengenComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
+      if (this.selectedHardware['status'] !== 'Verlengd') {
+        this.leningService.editLening(this.selectedHardware, {nieuw_blok: this.leningService.nextBlok(this.selectedHardware['nieuw_blok']), status: 'Verlengd'})
+        this.selectedHardware['nieuw_blok'] = this.leningService.nextBlok(this.selectedHardware['nieuw_blok']);
+        this.selectedHardware['status'] = 'Verlengd';
+        this.modalService.open(this.successModal);
+      } else {
+        // Popup geven
+        this.modalService.open(this.failureModal);
+      }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
@@ -137,6 +152,10 @@ export class LeningVerlengenComponent implements OnInit {
     }
   }
 
+  verlengen() {
+
+
+  }
   // constructor(db: AngularFireDatabase) {
   //   db.list('/hardware')
   //     .subscribe(dbHard => {

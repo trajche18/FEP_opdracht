@@ -21,7 +21,7 @@ export class LeningService {
   }
 
 
-  nextBlok(gekozenBlok: string){
+  nextBlok(gekozenBlok){
     for(let i = 0; i<this.blokken.length; i++) {
       console.log(i);
       if(this.blokken.length-1 == i){
@@ -67,7 +67,7 @@ export class LeningService {
         return this.matchingRole(allowed);
     }
     get canEdit(): boolean {
-        const allowed = ['beheerder'];
+        const allowed = ['beheerder', 'gebruiker'];
         return this.matchingRole(allowed);
     }
     get canDelete(): boolean {
@@ -84,6 +84,8 @@ export class LeningService {
     private matchingRole(allowedRoles): boolean {
         return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
     }
+
+
     // Create a bramd new item
   createLening(lening: Lening): void {
     if ( this.canCreate ) {
@@ -97,4 +99,11 @@ export class LeningService {
         }
         else console.log('action prevented!')
     }
+
+  editLening(lening, newData) {
+    if ( this.canEdit ) {
+      return this.db.object('leningen/' + lening.$key).update(newData)
+    }
+    else console.log('action prevented!')
+  }
 }

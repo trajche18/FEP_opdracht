@@ -3,7 +3,7 @@ import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
-import {User} from "../../users/user";
+import {User} from "../../users/shared/user";
 
 @Component({
   selector: 'user-profile',

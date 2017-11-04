@@ -12,6 +12,8 @@ import {LeningVerlengenComponent} from "../lening-verlengen/lening-verlengen.com
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {HardwareModule} from "../../hardware/shared/hardware.module";
 import {HardwareService} from "../../hardware/shared/hardware.service";
+import {UsersModule} from "../../users/shared/users.module";
+import {UsersService} from "../../users/shared/users.service";
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import {HardwareService} from "../../hardware/shared/hardware.service";
         AngularFireDatabaseModule,
         RouterModule,
         NgbModule,
-      HardwareModule
+      HardwareModule,
+      UsersModule
     ],
     declarations: [
         LeningFormComponent,
@@ -32,7 +35,8 @@ import {HardwareService} from "../../hardware/shared/hardware.service";
     ],
     providers: [
         LeningService,
-        HardwareService
+        HardwareService,
+        UsersService
     ]
 })
 export class LeningModule { }
