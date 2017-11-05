@@ -7,8 +7,13 @@ export class SettingsService {
     if (!value && typeof(value) !== 'number') {
       value = '';
     }
-    if(typeof value === undefined)
+    if(value === undefined) {
       value = '';
+    }
+    if(name === undefined) {
+      name = '';
+    }
+
 
     Cookies.set(name, value);
   }
