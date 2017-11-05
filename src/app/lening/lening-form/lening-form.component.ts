@@ -17,7 +17,6 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class LeningFormComponent implements OnInit {
   @ViewChild('success') successModal: ElementRef;
   @ViewChild('error') errorModal: ElementRef;
-  @ViewChild('content') contentModal: ElementRef;
 
   hardwares: any;
  // lening: Lening = new Lening();
@@ -29,9 +28,6 @@ export class LeningFormComponent implements OnInit {
   closeResult: string;
   //error: any;
   //success: any;
-
-  selectedHardware = '';
-  selectedBlok = '';
 
   formErrors = {
     'hardware': '',
@@ -59,6 +55,9 @@ export class LeningFormComponent implements OnInit {
     //this.hardwares = this.hardwareService.getHardwares();
     auth.currentUserObservable.subscribe((user) => {
       this.userId = user.uid;
+      // this.userService.getUser(this.allLeningen[i].gebruikersId).subscribe((user) => {
+      //   this.allLeningen[i].gebruiker = user;
+      // })
     })
     this.hardwareService.getHardwareList().snapshotChanges().subscribe(hardware => {
       this.hardwares = [];
@@ -75,17 +74,8 @@ export class LeningFormComponent implements OnInit {
 
     //this.hardwareService.getHardwares().subscribe(item => )
   }
-  selectChangedHandler(event: any) {
-    this.selectedHardware = event.target.value;
-    console.log(this.selectedHardware);
-  }
 
-  selectChangedHandlerBlok(event: any) {
-    this.selectedBlok = event.target.value;
-    console.log(this.selectedBlok);
-  }
-
-  createLening(content) {
+  createLening() {
     this.leningInformation.hardware = this.leningForm.value['hardware'];
     this.leningInformation.huidige_blok = this.leningForm.value['blok'];
     this.leningInformation.nieuw_blok = this.leningService.nextBlok(this.leningForm.value['blok']);
@@ -93,19 +83,15 @@ export class LeningFormComponent implements OnInit {
     this.leningInformation.gebruikersId = this.userId;
     this.leningInformation.status = "In behandeling";
 
-    this.modalService.open(content).result.then((result) =>{
+    //this.hardwares = this.leningForm.value['hardware'];
+    //this.selectedBlok = this.leningForm.value['blok'];
     if(this.leningForm.valid){
-      this.hardwares = this.leningForm.value['hardware'];
-      this.selectedBlok = this.leningForm.value['blok'];
       this.modalService.open(this.successModal).result.then((result) =>{});
       this.leningService.createLening(this.leningInformation as Lening);
     }
     else {
       this.modalService.open(this.errorModal).result.then((result) =>{});
     }
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
     console.log(this.leningInformation);
    // this.lening = new Lening() // reset de lening
     }

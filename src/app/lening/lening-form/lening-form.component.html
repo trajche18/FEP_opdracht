@@ -36,41 +36,41 @@
       <div *ngIf="formErrors.blok" class="notification is-danger">
         {{ formErrors.blok }}
       </div>
-      <button class="btn btn-lg btn-outline-primary" (click)="createLening(content)">Bevestigen</button>
-
-      <ng-template #error let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h4 class="modal-title">Error message</h4>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>studentnummer: {{leningInformation.gebruikersId}}</p>
-          <p>Gekozen hardware: {{hardwares.name}}</p>
-          <p>De, door u gekozen, hardware is momenteel niet beschikbaar. Neem contact op met de beheerder</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
-        </div>
-      </ng-template>
-
-      <ng-template #success let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h4 class="modal-title">Success message</h4>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>studentnummer: {{leningInformation.gebruikersId}}</p>
-          <p>Gekozen hardware: {{hardwares.name}}</p>
-          <p>De, door u gekozen, hardware is succesvol gereserveerd. Ga naar uw email voor meer informatie omtrent de lening.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
-        </div>
-      </ng-template>
+      <button class="btn btn-lg btn-outline-primary" (click)="createLening()">Bevestigen</button>
     </form>
   </div>
 </div>
+
+<ng-template #error let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Error message</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>studentnummer: {{leningInformation.gebruikersId}}</p>
+    <p>Gekozen hardware: {{hardwares.name}}</p>
+    <p>De, door u gekozen, hardware is momenteel niet beschikbaar. Neem contact op met de beheerder</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+  </div>
+</ng-template>
+
+<ng-template #success let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Success message</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>studentnummer: {{leningInformation.gebruikersId}}</p>
+    <p>Gekozen hardware: {{hardwares.name}}</p>
+    <p>De, door u gekozen, hardware is succesvol gereserveerd. Ga naar uw email voor meer informatie omtrent de lening.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+  </div>
+</ng-template>
