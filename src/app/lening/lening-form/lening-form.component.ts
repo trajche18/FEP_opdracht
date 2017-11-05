@@ -30,6 +30,9 @@ export class LeningFormComponent implements OnInit {
   error: any;
   success: any;
 
+  selectedHardware = '';
+  selectedBlok = '';
+
   formErrors = {
     'hardware': '',
     'blok': '',
@@ -72,8 +75,17 @@ export class LeningFormComponent implements OnInit {
 
     //this.hardwareService.getHardwares().subscribe(item => )
   }
+  selectChangedHandler(event: any) {
+    this.selectedHardware = event.target.value;
+    console.log(this.selectedHardware);
+  }
+
+  selectChangedHandlerBlok(event: any) {
+    this.selectedBlok = event.target.value;
+    console.log(this.selectedBlok);
+  }
+
   createLening(content) {
-    this.modalService.open(content).result.then((result) =>{
     this.leningInformation.hardware = this.leningForm.value['hardware'];
     this.leningInformation.huidige_blok = this.leningForm.value['blok'];
     this.leningInformation.nieuw_blok = this.leningService.nextBlok(this.leningForm.value['blok']);
@@ -81,12 +93,15 @@ export class LeningFormComponent implements OnInit {
     this.leningInformation.gebruikersId = this.userId;
     this.leningInformation.status = "In behandeling";
 
+    this.modalService.open(content).result.then((result) =>{
     if(this.leningForm.valid){
-      this.createLening(this.successModal);
+      this.hardwares = this.leningForm.value['hardware'];
+      this.selectedBlok = this.leningForm.value['blok'];
+      this.modalService.open(this.successModal);
       this.leningService.createLening(this.leningInformation as Lening);
     }
     else {
-      this.createLening(this.errorModal);
+      this.modalService.open(this.errorModal);
     }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
