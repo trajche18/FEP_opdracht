@@ -36,6 +36,8 @@ export class MailProviderMailgunService implements IMailProvider {
   }
 
   public set domainName(value : string) {
+    console.log(this._settingDomainNameKey);
+    console.log(value);
     this.settings.set(this._settingDomainNameKey, value);
   }
 
@@ -44,6 +46,8 @@ export class MailProviderMailgunService implements IMailProvider {
   }
 
   public set apiKey(value : string) {
+    console.log(this._settingApiKeyName);
+    console.log(value);
     this.settings.set(this._settingApiKeyName, value);
   }
 
@@ -73,7 +77,8 @@ export class MailProviderMailgunService implements IMailProvider {
   constructor(
     private http : HttpClient,
     private settings : SettingsService
-  ) { this.domainName = this._settingDomainNameKey;
+  ) {
+    this.domainName = this._settingDomainNameKey;
     this.apiKey = this._settingApiKeyName;
   }
 
