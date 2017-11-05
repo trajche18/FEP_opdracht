@@ -62,25 +62,4 @@ export class UsersService {
   private matchingRole(allowedRoles): boolean {
     return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
   }
-
-  // // Create a bramd new item
-  // createLening(lening: Lening): void {
-  //   if ( this.canCreate ) {
-  //     this.leningenRef.push(lening)
-  //   }
-  //   else console.log('action prevented!')
-  // }
-  // deleteLening(key) {
-  //   if ( this.canDelete ) {
-  //     return this.db.list('leningen/' + key).remove()
-  //   }
-  //   else console.log('action prevented!')
-  // }
-  //
-  // editLening(lening, newData) {
-  //   if ( this.canEdit ) {
-  //     return this.db.object('leningen/' + lening.$key).update(newData)
-  //   }
-  //   else console.log('action prevented!')
-  // }
 }

@@ -26,6 +26,7 @@ export class HardwareListUserComponent implements OnInit {
         x['$key'] = elem.key;
         this.allLeningen.push(x as Lening);
       })
+      // Leningen van de ingelogde user ophalen
       auth.currentUserObservable.subscribe((user) => {
         // this.allLeningen.map(len => len.gebruikersId !== user.uid);
         this.allLeningen = _.filter(this.allLeningen, function (o) { return o.gebruikersId === user.uid;});

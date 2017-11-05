@@ -18,8 +18,10 @@ import * as _ from "lodash";
 @Injectable()
 export class AuthService {
 
+  // Initialisatie
   userRef: AngularFireObject<any>;
   user: BehaviorSubject<User> = new BehaviorSubject(null);
+
 
   constructor(private afAuth: AngularFireAuth,
     private db: AngularFireDatabase,
@@ -55,14 +57,8 @@ export class AuthService {
     return this.afAuth.authState
   }
 
-// //  Returns current user UID
-//   get currentUserId(): string {
-//     return this.authenticated ? this.user.uid : '';
-//   }
-
 
   //// Social Auth ////
-
   githubLogin() {
     const provider = new firebase.auth.GithubAuthProvider()
     return this.socialSignIn(provider);
@@ -95,7 +91,6 @@ export class AuthService {
 
 
   //// Anonymous Auth ////
-
   anonymousLogin() {
     return this.afAuth.auth.signInAnonymously()
       .then((user) => {

@@ -43,6 +43,7 @@ export class LeningDetailComponent implements OnInit {
     //this.hardwareService.getHardwares().subscribe(item => )
   }
 
+  // Bouwt het formulier
   buildForm(): void {
     this.leningForm = this.fb.group({
       'status': ['', [
@@ -76,6 +77,7 @@ export class LeningDetailComponent implements OnInit {
     }
   }
 
+  // Updates validation state on form changes.
   editStatus(lening) {
     this.lening = lening;
     this.modalService.open(this.modal).result.then((result) => {
@@ -85,6 +87,7 @@ export class LeningDetailComponent implements OnInit {
     });
   }
 
+  // Slaat status op via de service
   saveStatus(email) {
     this.submitted = true;
     let self = this;
@@ -96,17 +99,8 @@ export class LeningDetailComponent implements OnInit {
       this.sendMail(email, 'Status wijziging lening', 'De status van uw lening met referentienummer ('+this.lening.referentienummer+') is zojuist aangepast naar "'+ this.lening.status +'"');
     });
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
 
-
+  // Verstuurt een mail via de mailservice
   async sendMail(emailTo, subject, body) {
     try {
       this.isSendingRequest = true;
@@ -126,6 +120,7 @@ export class LeningDetailComponent implements OnInit {
     }
   }
 
+  // Schakelt de status balk in en uit
   toggleStatus() {
     if(!this.displayForm) {
       this.displayForm = true;
@@ -134,15 +129,4 @@ export class LeningDetailComponent implements OnInit {
     }
   }
 
-  // updateTimeStamp() {
-  //   const date = new Date().getTime()
-  //   this.leningSvc.updateLening(this.lening.$key, { timeStamp: date })
-  // }
-  //
-  // updateActive(value: boolean) {
-  //   this.leningSvc.updateLening(this.lening.$key, { active: value })
-  // }
-  /*  deleteItem() {
-   this.hardwareSerive.de(this.lening.$key)
-   }*/
 }

@@ -12,28 +12,23 @@ import {UsersService} from "../../users/shared/users.service";
 import {MailSenderService} from "../../mail/mail-sender.service";
 import {User} from "../../users/shared/user";
 
-// git add .
-//   git commit -m "asd"
-// git push
-
 @Component({
   selector: 'lening-verlengen',
   templateUrl: './lening-verlengen.component.html',
   styleUrls: ['./lening-verlengen.component.scss']
 })
 export class LeningVerlengenComponent implements OnInit {
-
+  // Initialisatie
   selectedHardware = '';
   verlengenToestaan = false;
   allLeningen : any;
   user: User;
   isSendingRequest = false;
   verlengenForm: FormGroup;
+  closeResult: string;
   @ViewChild('success') successModal: ElementRef;
   @ViewChild('content') contentModal: ElementRef;
   @ViewChild('failure') failureModal: ElementRef;
-
-  // dbHardware: FirebaseListObservable<any[]>;
 
   formErrors = {
     'hardware': '',
@@ -42,34 +37,11 @@ export class LeningVerlengenComponent implements OnInit {
     'hardware': {
       'required': 'Hardware must be a valid hardware.'
     },
-    // 'password': {
-    //   'required': 'Password is required.',
-    //   'pattern': 'Password must be include at one letter and one number.',
-    //   'minlength': 'Password must be at least 4 characters long.',
-    //   'maxlength': 'Password cannot be more than 40 characters long.',
-    // },
-    // 'voornaam': {
-    //   'required': 'Voornaam is verplicht',
-    // },
-    // 'achternaam': {
-    //   'required': 'Achternaam is verplicht',
-    // },
-    // 'studentnummer': {
-    //   'required': 'Studentnummer is verplicht',
-    //   'pattern': 'Studentnummer dient numeriek te zijn',
-    // }
   };
-  selectChangedHandler(event: any) {
-    this.selectedHardware = event.target.value;
-    console.log(this.selectedHardware);
-  }
-
-
-
-  closeResult: string;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private leningService: LeningService,
               private auth: AuthService, private hardwareService: HardwareService, private userService: UsersService, private mailService : MailSenderService) {
+    // Haalt alle leningen op
     this.leningService.getLeningen().snapshotChanges().subscribe((lening) => {
       this.allLeningen = [];
       lening.forEach(elem => {
@@ -77,6 +49,7 @@ export class LeningVerlengenComponent implements OnInit {
         x['$key'] = elem.key;
         this.allLeningen.push(x as Lening);
       })
+      // Koppelt de user informatie aan de leningen van de ingelogde gebruikers
       auth.currentUserObservable.subscribe((user) => {
               // this.allLeningen.map(len => len.gebruikersId !== user.uid);
           this.allLeningen = _.filter(this.allLeningen, function (o) { return o.gebruikersId === user.uid;});
@@ -98,6 +71,13 @@ export class LeningVerlengenComponent implements OnInit {
     })
 
   }
+
+  // Selecteerd een hardware
+  selectChangedHandler(event: any) {
+    this.selectedHardware = event.target.value;
+  }
+
+  // Bouwt het formulier
   buildForm(): void {
     this.verlengenForm = this.fb.group({
       'hardware': ['', [
@@ -131,6 +111,7 @@ export class LeningVerlengenComponent implements OnInit {
     }
   }
 
+  // Verlengd de lening en stuurt een mailtje
   open(content) {
     this.modalService.open(content).result.then((result) => {
       console.log(this.selectedHardware['status']);
@@ -146,10 +127,10 @@ export class LeningVerlengenComponent implements OnInit {
         this.modalService.open(this.failureModal);
       }
     }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
 
+  // Verstuurt een mailtje via de service
   async sendMail(emailTo, subject, body) {
     try {
       this.isSendingRequest = true;
@@ -169,28 +150,7 @@ export class LeningVerlengenComponent implements OnInit {
     }
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
-  verlengen() {
-
-
-  }
-  // constructor(db: AngularFireDatabase) {
-  //   db.list('/hardware')
-  //     .subscribe(dbHard => {
-  //       this.dbHardware = dbHard;
-  //       console.log(this.dbHardware);
-  //   });
-  // }
-
+  // Bouwt het formulier
   ngOnInit() {
     this.buildForm();
   }

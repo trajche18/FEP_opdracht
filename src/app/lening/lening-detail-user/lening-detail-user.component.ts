@@ -12,6 +12,7 @@ import {MailSenderService} from "../../mail/mail-sender.service";
 })
 export class LeningDetailUserComponent implements OnInit {
 
+  // Initialisatie
   @Input() lening: Lening;
   @ViewChild('content') modal:ElementRef;
   leningForm: FormGroup;
@@ -34,9 +35,9 @@ export class LeningDetailUserComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
 
-    //this.hardwareService.getHardwares().subscribe(item => )
   }
 
+  // Bouwt het formulier
   buildForm(): void {
     this.leningForm = this.fb.group({
       'status': ['', [
@@ -90,16 +91,6 @@ export class LeningDetailUserComponent implements OnInit {
       this.sendMail(email, 'Status wijziging lening', 'De status van uw lening met referentienummer ('+this.lening.referentienummer+') is zojuist aangepast naar "'+ this.lening.status +'"');
     });
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
 
   async sendMail(emailTo, subject, body) {
     try {
@@ -120,6 +111,7 @@ export class LeningDetailUserComponent implements OnInit {
     }
   }
 
+  // Toggled de status balk
   toggleStatus() {
     if(!this.displayForm) {
       this.displayForm = true;
@@ -128,16 +120,5 @@ export class LeningDetailUserComponent implements OnInit {
     }
   }
 
-  // updateTimeStamp() {
-  //   const date = new Date().getTime()
-  //   this.leningSvc.updateLening(this.lening.$key, { timeStamp: date })
-  // }
-  //
-  // updateActive(value: boolean) {
-  //   this.leningSvc.updateLening(this.lening.$key, { active: value })
-  // }
-  /*  deleteItem() {
-   this.hardwareSerive.de(this.lening.$key)
-   }*/
 
 }

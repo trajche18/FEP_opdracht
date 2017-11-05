@@ -25,23 +25,11 @@ export class HardwareService {
       .subscribe()
   }
 
-  /// Get Data
-  /*getHardware(key: string): Observable<Hardware> {
-    const itemPath = `${this.hardware}/${key}`;
-    this.hardware = this.db.object(itemPath).valueChanges();
-    return this.hardware;
-  }*/
+
   getHardwareList(query?) {
-    // const itemsRef = afDb.list('/items')
-    // return this.itemsRef.valueChanges()
-    // return this.getHardwares().snapshotChanges().map(arr => {
-    //   return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
-    // })
     return this.itemsRef = this.db.list('/hardware')
   }
   getHardwares(query?) {
-    // const itemsRef = afDb  .list('/items')
-    // return this.itemsRef.valueChanges()
     return this.itemsRef.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
     })
@@ -62,7 +50,7 @@ export class HardwareService {
     return this.matchingRole(allowed);
   }
   get canEdit(): boolean {
-    const allowed = ['beheerder'];
+    const allowed = ['beheerder', 'gebruiker'];
     return this.matchingRole(allowed);
   }
   get canDelete(): boolean {
@@ -97,7 +85,4 @@ export class HardwareService {
     this.itemsRef.push(hardware);
   }
 
- /* updateHardware(){
-    Code updaten van hardwareStatus
-  }*/
 }

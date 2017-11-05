@@ -12,6 +12,7 @@ import {UsersService} from "../../users/shared/users.service";
   styleUrls: ['./lening-list-user.component.scss']
 })
 export class LeningListUserComponent implements OnInit {
+  // Initialisatie
   hardwares = [];
   showSpinner = true;
   allLeningen : any;
@@ -24,6 +25,8 @@ export class LeningListUserComponent implements OnInit {
         x['$key'] = elem.key;
         this.allLeningen.push(x as Lening);
       })
+
+      // Haalt user informatie op van de leningen geplaatsts door de ingelogde gebruiker
       auth.currentUserObservable.subscribe((user) => {
         // this.allLeningen.map(len => len.gebruikersId !== user.uid);
         this.allLeningen = _.filter(this.allLeningen, function (o) { return o.gebruikersId === user.uid;});

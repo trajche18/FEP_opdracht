@@ -18,6 +18,8 @@ export class LeningService {
     userRoles: Array<string>;
     blokken = ['Blok A', 'Blok B', 'Blok C', 'Blok D', 'Blok E']
 
+
+    // Haalt een lijst van leningen op
     constructor(private auth: AuthService,
                 private db: AngularFireDatabase) {
       this.leningenRef = this.db.list('leningen');
@@ -31,7 +33,7 @@ export class LeningService {
     }
 
 
-    /// Get Data
+    // Haalt alle leningen op
     getLeningenList(query?) {
         // const itemsRef = afDb.list('/items')
         // return this.itemsRef.valueChanges()
@@ -40,10 +42,22 @@ export class LeningService {
         })
     }
 
+    // Haalt alle leningen op
+    getLeningen() {
+        return this.db.list('leningen')
+    }
+
+    // Haalt lening op
+    getLening(key) {
+        return this.db.object('leningen/' + key)
+    }
+
+    // Haalt alle mogelijke blokken op
     get alleBlokken(): Array<string> {
         return this.blokken;
     }
 
+    // Haalt de volgende blok op van de aangegeven blok
     nextBlok(gekozenBlok: string){
         for(let i = 0; i<this.blokken.length; i++) {
             console.log(i);
@@ -54,15 +68,6 @@ export class LeningService {
                 return this.blokken[i+1];
             }
         }
-    }
-
-
-    getLeningen() {
-        return this.db.list('leningen')
-    }
-
-    getLening(key) {
-        return this.db.object('leningen/' + key)
     }
 
     ///// Authorization Logic /////
@@ -89,13 +94,15 @@ export class LeningService {
     private matchingRole(allowedRoles): boolean {
         return !_.isEmpty(_.intersection(allowedRoles, this.userRoles))
     }
-    // Create a bramd new item
-  createLening(lening: Lening): void {
-    if ( this.canCreate ) {
-      this.leningenRef.push(lening)
-    }
-    else console.log('action prevented!')
-  }
+    // Lening aanmaken
+      createLening(lening: Lening): void {
+        if ( this.canCreate ) {
+          this.leningenRef.push(lening)
+        }
+        else console.log('action prevented!')
+      }
+
+    // Lening verwijderen
     deleteLening(key) {
         if ( this.canDelete ) {
             return this.db.list('leningen/' + key).remove()
@@ -103,6 +110,7 @@ export class LeningService {
         else console.log('action prevented!')
     }
 
+    // Lening Bewerken
     editLening(lening, newData) {
         if ( this.canEdit ) {
             return this.db.object('leningen/' + lening.$key).update(newData)

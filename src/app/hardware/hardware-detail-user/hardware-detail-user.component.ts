@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class HardwareDetailUserComponent implements OnInit {
 
+  // Initialisatie
   @Input() hardware: Hardware;
   @ViewChild('content') modal:ElementRef;
   hardwareForm: FormGroup;
@@ -33,10 +34,9 @@ export class HardwareDetailUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-
-    //this.hardwareService.getHardwares().subscribe(item => )
   }
 
+  // Bouwt het formulier
   buildForm(): void {
     this.hardwareForm = this.fb.group({
       'status': ['', [
@@ -70,6 +70,7 @@ export class HardwareDetailUserComponent implements OnInit {
     }
   }
 
+  // Laat informatie zien van de geselecteerde hardware in een modal met een status balk die je kan aanpassen
   editStatus(hardware) {
     this.hardware = hardware;
     this.modalService.open(this.modal).result.then((result) => {
@@ -79,6 +80,7 @@ export class HardwareDetailUserComponent implements OnInit {
     });
   }
 
+  // Slaat informatie op via de service
   saveStatus() {
     this.submitted = true;
     let self = this;
@@ -88,16 +90,8 @@ export class HardwareDetailUserComponent implements OnInit {
     this.hardware.status = this.hardwareForm.value['status'];
     this.hardwareService.editHardware(this.hardware, {'status' : this.hardwareForm.value['status']});
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
 
+  // Schakelt de status balk in en uit
   toggleStatus() {
     if(!this.displayForm) {
       this.displayForm = true;
@@ -105,17 +99,5 @@ export class HardwareDetailUserComponent implements OnInit {
       this.displayForm = false;
     }
   }
-
-  // updateTimeStamp() {
-  //   const date = new Date().getTime()
-  //   this.leningSvc.updateLening(this.lening.$key, { timeStamp: date })
-  // }
-  //
-  // updateActive(value: boolean) {
-  //   this.leningSvc.updateLening(this.lening.$key, { active: value })
-  // }
-  /*  deleteItem() {
-   this.hardwareSerive.de(this.lening.$key)
-   }*/
 
 }

@@ -3,6 +3,6 @@ export class Hardware {
   aantal: number;
   beschrijving: string;
   naam: string;
-  serienummer: number;
+  serienummer: string;
   status: string;
 }

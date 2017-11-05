@@ -1,28 +1,103 @@
 <h3>New Hardware Form</h3>
-<label class="label">Name:</label>
-<input placeholder="Hardware Naam" class="input"
-       [(ngModel)]="hardware.naam"
-       required minlength="2" maxlength="100"
-       #naam='ngModel' autofocus>
+<form [formGroup]="hardwareForm"  (ngSubmit)="createHardware()">
 
-<label class="label">Aantal:</label>
-<input placeholder="Hardware Aantal" class="input" input type="number" pattern="[0-9]"
-       [(ngModel)]="hardware.aantal"
-       required minlength="2" maxlength="100"
-       #aantal='ngModel' autofocus>
+    <label class="label">Name :</label>
+    <input name="naam" id="naam" placeholder="Hardware Naam" class="form-control"
+           formControlName="naam" required>
+    <div *ngIf="formErrors.naam" class="notification is-danger">
+        {{ formErrors.naam }}
+    </div>
+    <label class="label">Aantal:</label>
+    <input name="aantal" id="aantal" placeholder="aantal" class="form-control" input type="number"
+           formControlName="aantal" required>
+    <div *ngIf="formErrors.aantal" class="notification is-danger">
+        {{ formErrors.aantal }}
+    </div>
+    <label class="label">Beschrijving:</label>
+    <input name="beschrijving" id="beschrijving" placeholder="beschrijving" class="form-control"
+           formControlName="beschrijving" required>
+    <div *ngIf="formErrors.beschrijving" class="notification is-danger">
+        {{ formErrors.beschrijving }}
+    </div>
+    <label class="label">Serienummer:</label>
+    <input name="serienummer" id="serienummer" placeholder="serienummer" class="form-control"
+           formControlName="serienummer" required>
+    <div *ngIf="formErrors.serienummer" class="notification is-danger">
+        {{ formErrors.serienummer }}
+    </div>
+    <br />
 
-<label class="label">Beschrijving:</label>
-<input placeholder="Hardware Beschrijving" class="input"
-       [(ngModel)]="hardware.beschrijving"
-       required minlength="2" maxlength="100"
-       #beschrijving='ngModel' autofocus>
-
-<label class="label">Serienummer:</label>
-<input placeholder="Hardware Serienummer" class="input"
-       [(ngModel)]="hardware.serienummer"
-       required minlength="2" maxlength="100"
-       #serienummer='ngModel' autofocus>
-
-<button class="button is-primary" (click)='createHardware()'>Toevoegen</button>
+    <button type="submit" class="button">Toevoegen</button>
+</form>
 
 
+
+
+<ng-template #error let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title text-danger">Error message</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Een van de velden ontbreken in de formulier. Maak uw formulier volledig a.u.b</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+    </div>
+</ng-template>
+
+
+<ng-template #success let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title text-success">Success</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Hardware is succesvol opgeslagen</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+    </div>
+</ng-template>
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Bevestiging</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('muis klik')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Controleer nogmaals alle informatie die u heeft aangegeven:</p>
+        <table>
+            <tr>
+                <td><b>Naam:</b></td>
+                <td>{{hardwareForm.value['naam']}}</td>
+            </tr>
+            <tr>
+                <td><b>Aantal:</b></td>
+                <td>{{hardwareForm.value['aantal']}}</td>
+            </tr>
+            <tr>
+                <td><b>Serienummer:</b></td>
+                <td>{{hardwareForm.value['serienummer']}}</td>
+            </tr>
+            <tr>
+                <td><b>Beschrijving:</b></td>
+                <td>{{hardwareForm.value['beschrijving']}}</td>
+            </tr>
+        </table><br />
+        <p><u>Klopt dit?</u></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('yes')">Ja</button>
+        <button type="button" class="btn btn-outline-dark" (click)="d()">Annuleren</button>
+
+    </div>
+</ng-template>

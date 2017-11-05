@@ -13,11 +13,12 @@ import {UsersService} from "../../users/shared/users.service";
 })
 export class LeningListComponent implements OnInit {
 
+  // Initialisatie
   showSpinner = true;
   allLeningen : any;
 
   constructor(private leningService: LeningService, private hardwareService: HardwareService, private userService: UsersService, private auth: AuthService) {
-
+    // Haalt leningen op
     this.leningService.getLeningen().snapshotChanges().subscribe((lening) => {
       this.allLeningen = [];
       lening.forEach(elem => {
@@ -25,6 +26,8 @@ export class LeningListComponent implements OnInit {
         x['$key'] = elem.key;
         this.allLeningen.push(x as Lening);
       })
+
+      // Haalt user gegevens op van alle leningen
       auth.currentUserObservable.subscribe((user) => {
         // this.allLeningen.map(len => len.gebruikersId !== user.uid);
         for (let i = 0; i < this.allLeningen.length; i++){
@@ -32,11 +35,9 @@ export class LeningListComponent implements OnInit {
           this.hardwareService.getHardware(hardwareid).subscribe((hardware) => {
             this.allLeningen[i].hardware = hardware;
           })
-          console.log(this.allLeningen[i]);
           this.userService.getUser(this.allLeningen[i].gebruikersId).subscribe((user) => {
             this.allLeningen[i].gebruiker = user;
           })
-          console.log(this.allLeningen[i]);
         }
         this.showSpinner = false;
       })
