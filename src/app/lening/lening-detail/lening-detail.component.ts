@@ -23,6 +23,7 @@ export class LeningDetailComponent implements OnInit {
   leningForm: FormGroup;
   displayForm = false;
   submitted = false;
+  isSendingRequest = false;
 
   formErrors = {
     'status': '',
@@ -32,7 +33,6 @@ export class LeningDetailComponent implements OnInit {
       'required': 'Status is verplicht'
     },
   };
-  isSendingRequest = false;
 
   constructor( private mailSenderService : MailSenderService, private leningService: LeningService, private fb: FormBuilder, private modalService: NgbModal ) { }
 

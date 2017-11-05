@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
 import {Lening} from '../shared/lening';
 import {LeningService} from "../shared/lening.service";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AuthService} from "../../core/auth.service";
 import {Router} from "@angular/router";
 import {HardwareService} from "../../hardware/shared/hardware.service";
 import {Hardware} from "../../hardware/shared/hardware";
+import {User} from "../../users/shared/user";
+import {UsersService} from "../../users/shared/users.service";
+import {MailSenderService} from "../../mail/mail-sender.service";
 
 @Component({
   selector: 'lening-form',
@@ -20,6 +24,11 @@ export class LeningFormComponent implements OnInit {
   submitted = false;
   errors = [];
   userId: string;
+  user: User;
+  isSendingRequest = false;
+  @ViewChild('success') successModal: ElementRef;
+  @ViewChild('error') errorModal: ElementRef;
+  @ViewChild('errorLenen') errorLenenModal: ElementRef;
 
   formErrors = {
     'hardware': '',
@@ -59,11 +68,17 @@ export class LeningFormComponent implements OnInit {
     return this.getRandomInt(1, 10000);
   }
 
-  constructor(private leningService : LeningService, private hardwareService : HardwareService, private fb: FormBuilder, private auth: AuthService, public router: Router) {
+  constructor(private leningService : LeningService, private userService: UsersService, private hardwareService : HardwareService, private fb: FormBuilder, private auth: AuthService, public router: Router, private modalService: NgbModal, private mailService: MailSenderService) {
     //this.hardwares = this.hardwareService.getHardwares();
     auth.currentUserObservable.subscribe((user) => {
       this.userId = user.uid;
+      this.userService.getUser(user.uid).subscribe((user) => {
+        this.user = user;
+      })
     })
+
+
+
     this.hardwareService.getHardwareList().snapshotChanges().subscribe(hardware => {
       this.hardwares = [];
       hardware.forEach(elemenmt => {
@@ -80,15 +95,36 @@ export class LeningFormComponent implements OnInit {
     //this.hardwareService.getHardwares().subscribe(item => )
   }
   createLening() {
-    this.leningInformation.hardware = this.leningForm.value['hardware'];
+    this.leningInformation.hardware = this.leningForm.value['hardware'].$key;
     this.leningInformation.huidige_blok = this.leningForm.value['blok'];
     this.leningInformation.nieuw_blok = this.leningService.nextBlok(this.leningForm.value['blok']);
     this.leningInformation.referentienummer = this.generateReferentieNummer();
     this.leningInformation.gebruikersId = this.userId;
     this.leningInformation.status = "In behandeling";
     this.leningInformation.geplaatst_datum = new Date().toString();
-    console.log(this.leningInformation);
-    this.leningService.createLening(this.leningInformation as Lening);
+    if(!this.leningForm.valid || this.leningService.geleend) {
+      if(this.leningService.geleend)
+        this.modalService.open(this.errorLenenModal);
+      else
+        this.modalService.open(this.errorModal);
+    } else {
+      this.leningService.createLening(this.leningInformation as Lening);
+      this.sendMail(this.user.email, 'Lening bevestiging', 'U heeft zojuist een lening geplaatst. Bij deze ontvangt u een bevestiging met wat u heeft geleend: \n' +
+          '\n Referentienummer: ('+this.leningInformation.referentienummer+')' +
+          '\n Studentnummer: '+this.user.studentnummer+'' +
+          '\n Huidige blok: '+this.leningInformation.huidige_blok+'' +
+          '\n Retour blok: '+this.leningInformation.nieuw_blok+'' +
+          '\n Hardware: '+this.leningForm.value['hardware'].naam+'' +
+          '\n');
+      this.modalService.open(this.successModal);
+
+      this.leningService.geleend = true;
+      let self = this;
+      setTimeout(function () {
+        self.leningService.geleend = false;
+      }, 3600000);
+    }
+
    // this.lening = new Lening() // reset de lening
   }
 
@@ -131,6 +167,26 @@ export class LeningFormComponent implements OnInit {
     this.leningForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // reset validation messages
   }
+
+  async sendMail(emailTo, subject, body) {
+    try {
+      this.isSendingRequest = true;
+
+      await this.mailService.sendMail(
+          'Mailgun Sandbox <postmaster@sandbox6a0d333799544b709fbcfea8f4580bae.mailgun.org>',
+          emailTo,
+          subject,
+          body
+      );
+
+      console.log("Worked");
+    } catch (error) {
+      console.log("Not worked", error);
+    } finally {
+      this.isSendingRequest = false;
+    }
+  }
+
 
   // Updates validation state on form changes.
   onValueChanged(data?: any) {

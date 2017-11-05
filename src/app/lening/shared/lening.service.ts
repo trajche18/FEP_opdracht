@@ -9,31 +9,15 @@ import * as _ from 'lodash'
 export class LeningService {
   private basePath = '/lening';
 
-  leningenRef: AngularFireList<Lening>;
-  leningRef:  AngularFireObject<Lening>;
+    leningenRef: AngularFireList<Lening>;
+    leningRef:  AngularFireObject<Lening>;
 
-  leningen: Observable<Lening[]>; //  list of objects
-  lening:  Observable<Lening>;   //   single object
+    leningen: Observable<Lening[]>; //  list of objects
+    lening:  Observable<Lening>;   //   single object
+    geleend = false;
+    userRoles: Array<string>;
+    blokken = ['Blok A', 'Blok B', 'Blok C', 'Blok D', 'Blok E']
 
-  blokken = ['Blok A', 'Blok B', 'Blok C', 'Blok D', 'Blok E']
-  get alleBlokken(): Array<string> {
-    return this.blokken;
-  }
-
-
-  nextBlok(gekozenBlok: string){
-    for(let i = 0; i<this.blokken.length; i++) {
-      console.log(i);
-      if(this.blokken.length-1 == i){
-        return this.blokken[0];
-      }
-      if(this.blokken[i] === gekozenBlok) {
-        return this.blokken[i+1];
-      }
-    }
-  }
-
-  userRoles: Array<string>;
     constructor(private auth: AuthService,
                 private db: AngularFireDatabase) {
       this.leningenRef = this.db.list('leningen');
@@ -43,6 +27,7 @@ export class LeningService {
             return this.userRoles = _.keys(_.get(user, 'roles'))
         })
             .subscribe()
+
     }
 
 
@@ -53,6 +38,22 @@ export class LeningService {
         return this.leningenRef.snapshotChanges().map(arr => {
             return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
         })
+    }
+
+    get alleBlokken(): Array<string> {
+        return this.blokken;
+    }
+
+    nextBlok(gekozenBlok: string){
+        for(let i = 0; i<this.blokken.length; i++) {
+            console.log(i);
+            if(this.blokken.length-1 == i){
+                return this.blokken[0];
+            }
+            if(this.blokken[i] === gekozenBlok) {
+                return this.blokken[i+1];
+            }
+        }
     }
 
 

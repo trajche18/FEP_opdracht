@@ -12,7 +12,7 @@
   <select name="hardware" id="hardware" class="form-control"
           formControlName="hardware" required>
     <option value="">--kies hardware--</option>
-    <option *ngFor="let hw of hardwares" [ngValue]="hw.$key">{{hw.naam}}</option>
+    <option *ngFor="let hw of hardwares" [ngValue]="hw">{{hw.naam}}</option>
   </select>
 
   <div *ngIf="formErrors.hardware" class="notification is-danger">
@@ -36,7 +36,60 @@
 
 
 <br />
-  <button type="submit" class="button" [disabled]="!leningForm.valid">Lenen</button>
+  <button type="submit" class="button">Bevestigen</button>
 
 
 </form>
+
+
+
+<ng-template #error let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-danger">Error message</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Studentnummer: {{user.studentnummer}}</p>
+    <p>De, door u gekozen, hardware is momenteel niet beschikbaar. Neem contact op met de beheerder</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+  </div>
+</ng-template>
+
+
+<ng-template #errorLenen let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-danger">Error message</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>U kunt maar 1 keer per uur een hardware lenen</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #success let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-success">Success</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Studentnummer: {{user.studentnummer}}</p>
+    <p>Gekozen hardware: {{leningForm.value['hardware'].naam}}</p>
+    <p>De, door u gekozen, hardware is succesvol gereserveerd. Ga naar uw email voor meer informatie omtrent de lening.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Terug</button>
+  </div>
+</ng-template>

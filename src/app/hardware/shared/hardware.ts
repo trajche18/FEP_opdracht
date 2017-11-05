@@ -1,5 +1,5 @@
 export class Hardware {
-  $key: string;
+  $key?: string;
   aantal: number;
   beschrijving: string;
   naam: string;

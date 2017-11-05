@@ -9,6 +9,8 @@ import * as _ from 'lodash';
 import {HardwareService} from "../../hardware/shared/hardware.service";
 import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
 import {UsersService} from "../../users/shared/users.service";
+import {MailSenderService} from "../../mail/mail-sender.service";
+import {User} from "../../users/shared/user";
 
 // git add .
 //   git commit -m "asd"
@@ -24,6 +26,8 @@ export class LeningVerlengenComponent implements OnInit {
   selectedHardware = '';
   verlengenToestaan = false;
   allLeningen : any;
+  user: User;
+  isSendingRequest = false;
   verlengenForm: FormGroup;
   @ViewChild('success') successModal: ElementRef;
   @ViewChild('content') contentModal: ElementRef;
@@ -65,7 +69,7 @@ export class LeningVerlengenComponent implements OnInit {
   closeResult: string;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private leningService: LeningService,
-              private auth: AuthService, private hardwareService: HardwareService, private userService: UsersService) {
+              private auth: AuthService, private hardwareService: HardwareService, private userService: UsersService, private mailService : MailSenderService) {
     this.leningService.getLeningen().snapshotChanges().subscribe((lening) => {
       this.allLeningen = [];
       lening.forEach(elem => {
@@ -85,6 +89,7 @@ export class LeningVerlengenComponent implements OnInit {
 
             this.userService.getUser(this.allLeningen[i].gebruikersId).subscribe((user) => {
               this.allLeningen[i].gebruiker = user;
+              this.user = user;
             })
 
           }
@@ -130,7 +135,9 @@ export class LeningVerlengenComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
       console.log(this.selectedHardware['status']);
       if (this.selectedHardware['status'] !== 'Verlengd') {
-        this.leningService.editLening(this.selectedHardware, {nieuw_blok: this.leningService.nextBlok(this.selectedHardware['nieuw_blok']), status: 'Verlengd'})
+        this.leningService.editLening(this.selectedHardware, {nieuw_blok: this.leningService.nextBlok(this.selectedHardware['nieuw_blok']), status: 'Verlengd'}).then(()=>{
+          this.sendMail(this.user.email, 'Lening verlengd', 'Uw lening met referentienummer: '+this.selectedHardware['referentienummer']+' is zojuist verlengd van '+this.selectedHardware['huidige_blok']+' naar '+ this.selectedHardware['nieuw_blok'] +' \n' + '');
+        })
         this.selectedHardware['nieuw_blok'] = this.leningService.nextBlok(this.selectedHardware['nieuw_blok']);
         this.selectedHardware['status'] = 'Verlengd';
         this.modalService.open(this.successModal);
@@ -141,6 +148,25 @@ export class LeningVerlengenComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  async sendMail(emailTo, subject, body) {
+    try {
+      this.isSendingRequest = true;
+
+      await this.mailService.sendMail(
+          'Mailgun Sandbox <postmaster@sandbox6a0d333799544b709fbcfea8f4580bae.mailgun.org>',
+          emailTo,
+          subject,
+          body
+      );
+
+      console.log("Worked");
+    } catch (error) {
+      console.log("Not worked", error);
+    } finally {
+      this.isSendingRequest = false;
+    }
   }
 
   private getDismissReason(reason: any): string {
