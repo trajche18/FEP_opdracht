@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import Cookies from 'js-cookie';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class SettingsService {
+
+  constructor( private cookieService: CookieService ) { }
+
   set(name : string, value) : void {
     if (!value && typeof(value) !== 'number') {
       value = '';
@@ -17,23 +20,22 @@ export class SettingsService {
       name = '';
     }
 
-
-    Cookies.set(name, value);
+    this.cookieService.set(name, value);
   }
 
   get(name : string) : string {
-    return Cookies.get(name);
+    return this.cookieService.get(name);
   }
 
   getBoolean(name : string) : boolean {
-    return Cookies.get(name) === 'true';
+    return this.cookieService.get(name) === 'true';
   }
 
   setBoolean(name : string, value : boolean) : void {
-    Cookies.set(name, value.toString());
+    this.cookieService.set(name, value.toString());
   }
 
   isSet(name : string) {
-    return Cookies.get(name);
+    return this.cookieService.get(name);
   }
 }

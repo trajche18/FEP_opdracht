@@ -30,6 +30,8 @@
     "firebase": "^4.4.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.4",
+    "ngx-cookie": "^1.0.1",
+    "ngx-cookie-service": "^1.0.9",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.17"
   },

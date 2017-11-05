@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 
 // Core
 import { CoreModule } from './core/core.module';
+import { CookieService } from 'ngx-cookie-service';
 
 // Shared/Widget
 import { SharedModule } from './shared/shared.module'
@@ -69,6 +70,7 @@ import { LeningDetailUserComponent } from './lening/lening-detail-user/lening-de
     HardwareModule,
     AngularFireModule.initializeApp(firebaseConfig)
   ],
+  providers: [ CookieService ],
   bootstrap: [
     AppComponent
   ]
