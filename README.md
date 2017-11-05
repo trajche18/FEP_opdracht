@@ -1,46 +1,23 @@
-[![Slack](https://firebasestorage.googleapis.com/v0/b/firestarter-96e46.appspot.com/o/assets%2Fslack-badge.svg?alt=media&token=3e68acef-3e00-4925-9710-e11cee5923e4)](https://join.slack.com/angularfirebase/shared_invite/MjA2NTgxMTI0MTk2LTE0OTg4NTQ4MDAtMjhhZDIzMjc0Mg)
+# FEP Opdracht - Hardware Reservering systeem
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-
-# FireStarter - Angular + Firebase Progressive Web App
-
-FireStarter is designed to handle the basic features required by most Angular Firebase apps. It can serve as a foundation to learn this stack and roll out more complex features.
-
-- [Live Demo](https://firestarter-96e46.firebaseapp.com/)
-- [Lessons and Screencasts](https://angularfirebase.com)
-- [Join the Slack Team](https://join.slack.com/t/angularfirebase/shared_invite/enQtMjU2OTU5OTMyODM3LWU4YTZiMGFhZjJhYmEwYzI1MWFmYTgyMWRmOTI5NWZjYWE3NTMwZjFmNWMwZGI1MmMzODQ3OTFlZjFkMjc5N2Y)
-
-## Features
-
-- Angular 4.4 + AngularFire5
-- 100 PWA Lighthouse Score
-- Firebase Authentication w/ Router Guard
-- Firestore Database CRUD Demo
-- Realtime Database CRUD Demo
-- File Uploads to Firebase Storage Demo
-
-
-## Usage
-
-Create an account at https://firebase.google.com/
-
-- `git clone https://github.com/codediodeio/angular-firestarter.git firestarter`
-- `cd firestarter`
+## Installatie
+- `git clone https://github.com/trajche18/FEP_opdracht.git fep-opdracht-groep-trajche`
+- `cd fep-opdracht-groep-trajche`
 - `npm install`
 
-Create the environment files below in `src/environments/`.
+Voordat je het project runt, dien je environment files in  `src/environments/` te hebben. De onderstaande bestanden dien je aan te maken.
 
 #### environment.ts
 ```typescript
 export const environment = {
     production: false,
     firebaseConfig: {
-        apiKey: 'APIKEY',
-        authDomain: 'DEV-APP.firebaseapp.com',
-        databaseURL: 'https://DEV-APP.firebaseio.com',
-        projectId: 'DEV-APP',
-        storageBucket: 'DEV-APP.appspot.com',
-        messagingSenderId: '123456789'
+        apiKey: "AIzaSyBWC40IsmiLzDDawMbZK4kjKG9mkh5kJOE",
+        authDomain: "hardware-lenen.firebaseapp.com",
+        databaseURL: "https://hardware-lenen.firebaseio.com",
+        projectId: "hardware-lenen",
+        storageBucket: "hardware-lenen.appspot.com",
+        messagingSenderId: "740504731528"
     }
 };
 ```
@@ -49,14 +26,10 @@ export const environment = {
 export const environment = {
     production: true,
     firebaseConfig: {
-        // same as above, or use a different firebase project to isolate environments
+        // Zelfde als boven of gebruik een andere firebase database om 
+        // te testen
     }
 };
 ```
 
-And finally `ng serve`
-
-## Apps Using FireStarter in Production
-
-- [ArtiFilter](https://app.artifilter.com) - Neural Art Generator
-- [FlashLawyer](https://flashlawyer.com) - Legal Document Builder and Chatbot
+Ten slotte, voor de commando `ng serve` uit
