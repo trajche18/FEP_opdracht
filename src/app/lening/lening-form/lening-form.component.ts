@@ -27,8 +27,8 @@ export class LeningFormComponent implements OnInit {
   errors = [];
   userId: string;
   closeResult: string;
-  error: any;
-  success: any;
+  //error: any;
+  //success: any;
 
   selectedHardware = '';
   selectedBlok = '';
@@ -97,11 +97,11 @@ export class LeningFormComponent implements OnInit {
     if(this.leningForm.valid){
       this.hardwares = this.leningForm.value['hardware'];
       this.selectedBlok = this.leningForm.value['blok'];
-      this.modalService.open(this.successModal);
+      this.modalService.open(this.successModal).result.then((result) =>{});
       this.leningService.createLening(this.leningInformation as Lening);
     }
     else {
-      this.modalService.open(this.errorModal);
+      this.modalService.open(this.errorModal).result.then((result) =>{});
     }
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -119,28 +119,6 @@ export class LeningFormComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
-
-  signup(): void {
-    this.submitted = true;
-    this.errors = [''];
-  //  this.leningInformation = {hardware: this.leningForm.value['hardware'], blok: this.leningForm.value['blok'], studentnummer: this.leningForm.value['studentnummer']};
-    this.auth.emailSignUp(this.leningForm.value['email'], this.leningForm.value['password'], this.leningInformation)
-      .catch(error => {
-        this.errors = [];
-        this.errors.push(error.message);
-      }).then((success) => {
-      if(this.errors[0] === '')
-        this.errors = [];
-      setTimeout(() => {
-        this.router.navigate(['/lening/dashboard']);
-      }, 2000);
-
-    })
-  }
-
-  // login(): void {
-  //   this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password'])
-  // }
 
   buildForm(): void {
     this.leningForm = this.fb.group({
