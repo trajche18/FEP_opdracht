@@ -7,6 +7,9 @@ export class SettingsService {
     if (!value && typeof(value) !== 'number') {
       value = '';
     }
+
+    console.log(name);
+    console.log(value);
     if(value === undefined) {
       value = '';
     }
