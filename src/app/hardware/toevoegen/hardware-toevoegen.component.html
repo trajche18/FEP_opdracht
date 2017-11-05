@@ -1,0 +1,35 @@
+<h3>New Hardware Form</h3>
+<form [formGroup]="hardwareForm"  (ngSubmit)="createHardware()">
+  <div *ngIf="hardwareForm.valid && submitted && errors.length == 0" class="notification is-success">Uw aanvraag is voldaan. U krijgt binnen enkele minuten een mailtje op de, door u opgegeven, email</div>
+
+  <div *ngIf="hardwareForm.valid && submitted && errors.length > 0" class="notification is-danger">{{errors[0]}}</div>
+
+
+  <button type="submit" class="button" [disabled]="!hardwareForm.valid">Toevoegen</button>
+  <label class="label">Name :</label>
+  <input name="naam" id="naam" placeholder="Hardware Naam" class="form-control"
+         formControlName="naam" required minlength="2" maxlength="100">
+  <div *ngIf="formErrors.naam" class="notification is-danger">
+    {{ formErrors.naam }}
+  </div>
+  <label class="label">Aantal:</label>
+  <input name="aantal" id="aantal" placeholder="aantal" class="form-control" input type="number" pattern="[0-9]"
+         formControlName="aantal" required minlength="2" maxlength="100">
+  <div *ngIf="formErrors.aantal" class="notification is-danger">
+    {{ formErrors.aantal }}
+  </div>
+  <label class="label">Beschrijving:</label>
+  <input name="beschrijving" id="beschrijving" placeholder="beschrijving" class="form-control"
+         formControlName="beschrijving" required minlength="2" maxlength="100">
+  <div *ngIf="formErrors.beschrijving" class="notification is-danger">
+    {{ formErrors.beschrijving }}
+  </div>
+  <label class="label">Serienummer:</label>
+  <input name="serienummer" id="serienummer" placeholder="serienummer" class="form-control" input type="number" pattern="[0-9]"
+         formControlName="serienummer" required minlength="2" maxlength="100">
+  <div *ngIf="formErrors.serienummer" class="notification is-danger">
+    {{ formErrors.serienummer }}
+  </div>
+  <br />
+
+</form>

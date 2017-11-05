@@ -1,0 +1,70 @@
+<div class="content columns">
+  <div class="column is-5 is-offset-4">
+<div *ngIf="!auth.currentUser; else alreadyLoggedIn">
+
+  <h3>Social Login</h3>
+
+
+  <button (click)="signInWithGoogle()" class="button btn-social btn-google">
+    <i class="fa fa-google-plus fa-lg"></i> Connect Google
+  </button>
+
+  <button (click)="signInWithGithub()" class="button btn-social btn-github" disabled>
+    <i class="fa fa-github fa-lg"></i> Connect GitHub
+  </button>
+
+  <button (click)="signInWithFacebook()" class="button  btn-social btn-facebook" disabled>
+    <i class="fa fa-facebook fa-lg"></i> Connect Facebook
+  </button>
+
+  <button (click)="signInWithTwitter()" class="button  btn-social btn-twitter" disabled>
+    <i class="fa fa-twitter fa-lg"></i> Connect Twitter
+  </button>
+
+  <hr>
+
+  <form [formGroup]="userForm" (ngSubmit)="login()">
+
+    <h3>Login</h3>
+    <p class="btn button is-small" routerLink="/user/register">Nog geen account?</p>
+    <hr>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" class="input"
+           formControlName="email" required >
+
+    <div *ngIf="formErrors.email" class="help is-danger">
+      {{ formErrors.email }}
+    </div>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" class="input"
+           formControlName="password" required >
+
+    <div *ngIf="formErrors.password" class="help is-danger">
+      {{ formErrors.password }}
+    </div>
+
+    <button type="submit" class="button" [disabled]="!userForm.valid">Inloggen</button>
+
+    <span *ngIf="userForm.valid" class="help is-success">Form Looks Valid</span>
+
+    <a *ngIf="!passReset && userForm.controls.email.valid" class="help is-info" (click)="resetPassword()">Reset Password for {{userForm.value.email}}?</a>
+    <p *ngIf="passReset" class="help is-info">Reset requested. Check your email instructions.</p>
+
+
+  </form>
+
+</div>
+
+
+
+
+<ng-template #alreadyLoggedIn>
+  <p class="text-success">
+    Already logged in!
+  </p>
+</ng-template>
+
+    </div>
+  </div>

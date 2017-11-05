@@ -1,0 +1,8 @@
+
+    <!-- User logged in -->
+    <div class="box" *ngIf="auth.currentUser">
+        <h3>Howdy, {{ userInfo?.voornaam }} {{ userInfo?.achternaam }} </h3>
+        <img class="card-img-top" [src]="userInfo?.photoURL || 'https://api.adorable.io/avatars/109/fire.png'" width=50px>
+        <p class="text-truncate">UID: {{userInfo?.uid}}</p>
+        <button class="button" (click)="logout()">Logout</button>
+   </div>

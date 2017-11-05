@@ -1,0 +1,10 @@
+<div class="card-content">
+  <div class="row">
+    <div class="col-md-9">
+      ({{lening.referentienummer}}) <b>{{lening.hardware.naam}}</b><br />
+      <b>Datum:</b> {{lening.geplaatst_datum}}<br />
+      <b>Door:</b> {{lening.gebruiker?.voornaam}} {{lening.gebruiker?.achternaam}} ({{lening.gebruiker?.studentnummer}})<br />
+      Van <b>{{lening.huidige_blok}}</b> tot <b>{{lening.nieuw_blok}}</b>
+    </div>
+  </div>
+</div>

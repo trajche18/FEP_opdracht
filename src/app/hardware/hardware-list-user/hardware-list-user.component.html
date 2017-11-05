@@ -1,0 +1,9 @@
+<h1>Hardwares</h1>
+
+<p>Dit zijn de door u geleende hardwares:</p>
+
+<div *ngFor="let hardware of hardwares" class="card">
+  <hardware-detail [hardware]='hardware'></hardware-detail>
+</div>
+
+<loading-spinner *ngIf="showSpinner"></loading-spinner>

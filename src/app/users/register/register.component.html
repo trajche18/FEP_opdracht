@@ -1,0 +1,62 @@
+
+<div class="content columns">
+  <div class="column is-5 is-offset-4">
+    <form [formGroup]="userForm"  *ngIf="newUser" (ngSubmit)="signup()">
+
+      <h3>Registratie</h3>
+
+      <div *ngIf="userForm.valid && submitted && errors.length == 0" class="notification is-success">Uw account is succesvol geregistreerd, u bent nu ingelogd</div>
+
+      <div *ngIf="userForm.valid && submitted && errors.length > 0" class="notification is-danger">{{errors[0]}}</div>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" class="input"
+             formControlName="email" required >
+
+      <div *ngIf="formErrors.email" class="notification is-danger">
+        {{ formErrors.email }}
+      </div>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" class="input"
+             formControlName="password" required >
+
+      <div *ngIf="formErrors.password" class="notification is-danger">
+        {{ formErrors.password }}
+      </div>
+
+
+      <label for="voornaam">Voornaam</label>
+      <input type="text" id="voornaam" class="input"
+             formControlName="voornaam" required >
+
+      <div *ngIf="formErrors.voornaam" class="notification is-danger">
+        {{ formErrors.voornaam }}
+      </div>
+
+
+      <label for="voornaam">Achternaam</label>
+      <input type="text" id="achternaam" class="input"
+             formControlName="achternaam" required >
+
+      <div *ngIf="formErrors.achternaam" class="notification is-danger">
+        {{ formErrors.achternaam }}
+      </div>
+
+
+      <label for="voornaam">Studentnummer</label>
+      <input type="text" id="studentnummer" class="input"
+             formControlName="studentnummer" required >
+
+      <div *ngIf="formErrors.studentnummer" class="notification is-danger">
+        {{ formErrors.studentnummer }}
+      </div>
+
+
+
+      <button type="submit" class="button" [disabled]="!userForm.valid">Registreren</button>
+
+
+    </form>
+  </div>
+</div>

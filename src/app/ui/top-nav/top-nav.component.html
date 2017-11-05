@@ -1,0 +1,42 @@
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-item logo" routerLink="/">
+      <img src="assets/images/hu.png" width="30px" alt="Hogeschool Utrecht Lening systeem"/> Hardware lenen
+    </a>
+  </div>
+
+  <!-- This "nav-toggle" hamburger menu is only visible on mobile -->
+  <!-- You need JavaScript to toggle the "is-active" class on "nav-menu" -->
+  <span class="nav-toggle" (click)="toggleCollapse()" [ngClass]="{'is-active': show}">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+
+  <!-- This "nav-menu" is hidden on mobile -->
+  <!-- Add the modifier "is-active" to display it on mobile -->
+  <div class="nav-right nav-menu" [ngClass]="{'is-active': show}">
+    <a class="nav-item" (click)="logout()" *ngIf="auth.currentUser;">
+      Logout
+    </a>
+    <a class="nav-item" routerLink="/user/login" *ngIf="!auth.currentUser;">
+      Login
+    </a>
+    <a class="nav-item" routerLink="/user/dashboard" *ngIf="auth.currentUser;">
+      Dashboard
+    </a>
+    <a class="nav-item" routerLink="/hardware/list/user" *ngIf="navService.isGebruiker && !navService.isBeheerder">
+      Hardware
+    </a>
+    <a class="nav-item" routerLink="/lening/list/user" *ngIf="navService.isGebruiker && !navService.isBeheerder">
+      Leningen
+    </a>
+    <a class="nav-item" routerLink="/hardware/list" *ngIf="navService.isBeheerder">
+      Hardware
+    </a>
+    <a class="nav-item" routerLink="/lening/list" *ngIf="navService.isBeheerder">
+      Leningen
+    </a>
+  </div>
+
+</nav>

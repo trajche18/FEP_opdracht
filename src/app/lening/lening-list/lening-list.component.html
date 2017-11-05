@@ -1,0 +1,9 @@
+<h1>Leningen</h1>
+
+<p>Dit zijn alle gemaakte leningen die u kunt aanpassen:</p>
+
+<div *ngFor="let lening of allLeningen" class="card">
+  <lening-detail [lening]='lening'></lening-detail>
+</div>
+
+<loading-spinner *ngIf="showSpinner"></loading-spinner>
