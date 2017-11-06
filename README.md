@@ -33,3 +33,5 @@ export const environment = {
 ```
 
 Ten slotte, voor de commando `ng serve` uit
+
+NOTE: Wat betreft de documentatie, de PDF versie van het testrapport komt raar uit te zien (en dat komt waarschijnlijk door de allignments- het FO heeft dit probleem niet). Dus vandaar dat we twee formaten, PDF en word, hebben gepushed.
